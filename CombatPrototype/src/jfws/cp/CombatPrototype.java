@@ -1,6 +1,7 @@
 package jfws.cp;
 
 import jfws.cp.combat.Attack;
+import jfws.cp.combat.AttackResult;
 import jfws.cp.combat.Character;
 import jfws.cp.combat.Defense;
 import jfws.cp.combat.Skill;
@@ -41,6 +42,16 @@ public class CombatPrototype
 		System.out.println("");
 		System.out.println(swing.getName() + ": " + swing.getAttackValue(character));
 		System.out.println(shoot.getName() + ": " + shoot.getAttackValue(character));
+		System.out.println("");
+		System.out.println(dodge.getName() + ": " + dodge.getDefenseValue(character));
+		System.out.println(parry.getName() + ": " + parry.getDefenseValue(character));
+		System.out.println("");
+		
+		for(int i = 0; i < 10; i++)
+		{
+			AttackResult result = Attack.handle(test_mgr, character, swing, character, dodge);
+			System.out.println("Result: " + result.getMarginOfSuccess());
+		}
 	}
 	
 }
