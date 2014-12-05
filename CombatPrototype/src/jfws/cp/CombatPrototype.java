@@ -1,5 +1,6 @@
 package jfws.cp;
 
+import jfws.cp.combat.Attack;
 import jfws.cp.combat.Character;
 import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
@@ -19,11 +20,17 @@ public class CombatPrototype
 		Skill fighting = skill_mgr.createSkill("Fighting", -2);
 		Skill shooting = skill_mgr.createSkill("Shooting", -4);
 		
+		Attack sword = new Attack("Sword", fighting, 0);
+		Attack bow = new Attack("Bow", shooting, 0);
+		
 		Character character = new Character();
 		character.setSkillLevel(fighting, 6);
 		
 		System.out.println(fighting.getName() + ": " + character.getSkillLevel(fighting));
 		System.out.println(shooting.getName() + ": " + character.getSkillLevel(shooting));
+		System.out.println("");
+		System.out.println(sword.getName() + ": " + sword.getAttackValue(character));
+		System.out.println(bow.getName() + ": " + bow.getAttackValue(character));
 	}
 	
 }
