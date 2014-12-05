@@ -5,6 +5,7 @@ import jfws.cp.combat.Character;
 import jfws.cp.combat.Defense;
 import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
+import jfws.cp.combat.TestMgr;
 
 public class CombatPrototype
 {
@@ -16,6 +17,8 @@ public class CombatPrototype
 	{
 		System.out.println("Combat Prototype");
 		System.out.println("----------------\n");
+		
+		TestMgr test_mgr = new TestMgr(10);
 		
 		SkillMgr skill_mgr = new SkillMgr();
 		Skill athletics = skill_mgr.createSkill("Athletics", -2);
