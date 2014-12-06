@@ -9,16 +9,16 @@ public class AttackResult
 	private Defense defense_;
 	
 	private int margin_of_success_;
+	
+	private int damage_;
 
-	public AttackResult(Character attacker, Attack attack, Character defender, Defense defense, int margin_of_success)
+	public AttackResult(Character attacker, Attack attack, Character defender, Defense defense)
 	{
 		attacker_ = attacker;
 		attack_ = attack;
 		
 		defender_ = defender;
 		defense_ = defense;
-		
-		margin_of_success_ = margin_of_success;
 	}
 
 	public Character getAttacker()
@@ -46,8 +46,23 @@ public class AttackResult
 		return margin_of_success_;
 	}
 	
+	public void setMarginOfSuccess(int margin_of_success)
+	{
+		margin_of_success_ = margin_of_success;
+	}
+	
 	public boolean hasHit()
 	{
 		return margin_of_success_ >= 0;
+	}
+	
+	public int getDamage()
+	{
+		return damage_;
+	}
+	
+	public void setDamage(int damage)
+	{
+		damage_ = damage;
 	}
 }

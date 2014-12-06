@@ -39,13 +39,20 @@ public class Attack
 		return attribute_level + skill_level + modifier_;
 	}
 	
-	public static AttackResult handle(TestMgr test_mgr, Character attacker, Attack attack, Character defender, Defense defense)
+	public static int handle(TestMgr test_mgr, Character attacker, Attack attack, Character defender, Defense defense)
 	{
 		int attack_value = attack.getAttackValue(attacker);
 		int defense_value = defense.getDefenseValue(defender);
 		
-		int margin_of_success = test_mgr.handle(attack_value, defense_value);
+		return test_mgr.handle(attack_value, defense_value);
+	}
+	
+	public static void handle(TestMgr test_mgr, AttackResult result)
+	{
+		int margin_of_success = handle(test_mgr,
+			result.getAttacker(), result.getAttack(),
+			result.getDefender(), result.getDefense());
 		
-		return new AttackResult(attacker, attack, defender, defense, margin_of_success);
+		result.setMarginOfSuccess(margin_of_success);
 	}
 }

@@ -56,18 +56,20 @@ public class CombatPrototype
 		System.out.println(parry.getName() + ": " + parry.getDefenseValue(character));
 		System.out.println("");
 		
+		AttackResult result = new AttackResult(character, swing, character, dodge);
+		
 		for(int i = 0; i < 10; i++)
 		{
-			AttackResult result = Attack.handle(test_mgr, character, swing, character, dodge);
+			Attack.handle(test_mgr, result);
 			
 			System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
 			
 			if(!result.hasHit())
 				continue;
 			
-			int damage = swing.getDamage().getDamage(character, result.getMarginOfSuccess());
+			Damage.handle(result);
 			
-			System.out.println("Damage: " + damage);
+			System.out.println("Damage: " + result.getDamage());
 		}
 	}
 	

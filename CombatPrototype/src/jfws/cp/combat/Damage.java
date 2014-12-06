@@ -23,4 +23,12 @@ public class Damage
 	{
 		return getBaseDamage(attacker) + margin_of_success;
 	}
+	
+	public static void handle(AttackResult result)
+	{
+		Damage damage = result.getAttack().getDamage();
+		int damage_value = damage.getDamage(result.getAttacker(), result.getMarginOfSuccess());
+		
+		result.setDamage(damage_value);
+	}
 }
