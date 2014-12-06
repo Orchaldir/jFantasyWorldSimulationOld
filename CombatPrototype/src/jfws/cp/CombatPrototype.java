@@ -5,6 +5,7 @@ import jfws.cp.combat.AttackResult;
 import jfws.cp.combat.Attribute;
 import jfws.cp.combat.AttributeMgr;
 import jfws.cp.combat.Character;
+import jfws.cp.combat.Damage;
 import jfws.cp.combat.Defense;
 import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
@@ -33,8 +34,11 @@ public class CombatPrototype
 		Skill fighting = skill_mgr.createSkill("Fighting", -2);
 		Skill shooting = skill_mgr.createSkill("Shooting", -2);
 		
-		Attack swing = new Attack("Swing", agility, fighting, 0);
-		Attack shoot = new Attack("Shoot", perception, shooting, 0);
+		Damage swing_damage = new Damage(strength, 2);
+		Damage shoot_damage = new Damage(null, 8);
+		
+		Attack swing = new Attack("Swing", agility, fighting, 0, swing_damage);
+		Attack shoot = new Attack("Shoot", perception, shooting, 0, shoot_damage);
 		
 		Defense dodge = new Defense("Dodge", agility, athletics, 0);
 		Defense parry = new Defense("Parry", agility, fighting, 0);
@@ -55,7 +59,15 @@ public class CombatPrototype
 		for(int i = 0; i < 10; i++)
 		{
 			AttackResult result = Attack.handle(test_mgr, character, swing, character, dodge);
-			System.out.println("Result: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
+			
+			System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
+			
+			if(!result.hasHit())
+				continue;
+			
+			int damage = swing.getDamage().getDamage(character, result.getMarginOfSuccess());
+			
+			System.out.println("Damage: " + damage);
 		}
 	}
 	

@@ -8,17 +8,27 @@ public class Attack
 	private Skill skill_;
 	private int modifier_;
 	
-	public Attack(String name, Attribute attribute, Skill skill, int modifier)
+	private Damage damage_;
+	
+	public Attack(String name, Attribute attribute, Skill skill, int modifier, Damage damage)
 	{
 		name_ = name;
+		
 		attribute_ = attribute;
 		skill_ = skill;
 		modifier_ = modifier;
+		
+		damage_ = damage;
 	}
 	
 	public String getName()
 	{
 		return name_;
+	}
+	
+	public Damage getDamage()
+	{
+		return damage_;
 	}
 	
 	public int getAttackValue(Character attacker)
