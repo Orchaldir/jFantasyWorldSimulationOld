@@ -50,7 +50,7 @@ public class CombatPrototype
 		for(int i = 0; i < 10; i++)
 		{
 			AttackResult result = Attack.handle(test_mgr, character, swing, character, dodge);
-			System.out.println("Result: " + result.getMarginOfSuccess());
+			System.out.println("Result: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
 		}
 	}
 	

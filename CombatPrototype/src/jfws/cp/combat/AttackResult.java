@@ -45,4 +45,9 @@ public class AttackResult
 	{
 		return margin_of_success_;
 	}
+	
+	public boolean hasHit()
+	{
+		return margin_of_success_ >= 0;
+	}
 }
