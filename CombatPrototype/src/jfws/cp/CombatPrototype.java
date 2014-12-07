@@ -11,6 +11,7 @@ import jfws.cp.combat.Protection;
 import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
 import jfws.cp.combat.TestMgr;
+import jfws.cp.combat.health.WoundSystem;
 
 public class CombatPrototype
 {
@@ -35,6 +36,8 @@ public class CombatPrototype
 		Skill fighting = skill_mgr.createSkill("Fighting", -2);
 		Skill shooting = skill_mgr.createSkill("Shooting", -2);
 		
+		WoundSystem wound_system = new WoundSystem(strength);
+		
 		Damage swing_damage = new Damage(strength, 2);
 		Damage shoot_damage = new Damage(null, 8);
 		
@@ -44,7 +47,7 @@ public class CombatPrototype
 		Defense dodge = new Defense("Dodge", agility, athletics, 0);
 		Defense parry = new Defense("Parry", agility, fighting, 0);
 		
-		Protection mail_armor = new Protection("Mail Armor", 4);
+		Protection mail_armor = new Protection("Mail Armor", 2);
 		
 		Character character = new Character(attribute_mgr);
 		character.setAttributeLevel(agility, 1);
@@ -73,7 +76,9 @@ public class CombatPrototype
 			
 			Damage.handle(result);
 			
-			System.out.println("Damage: " + result.getDamage());
+			wound_system.handle(result);
+			
+			System.out.println("Damage: " + result.getDamage() + " -> " + result.getPenetratingDamage());
 		}
 	}
 	

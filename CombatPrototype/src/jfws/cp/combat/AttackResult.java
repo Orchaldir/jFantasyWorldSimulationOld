@@ -11,6 +11,7 @@ public class AttackResult
 	private int margin_of_success_;
 	
 	private int damage_;
+	private int penetrating_damage_;
 
 	public AttackResult(Character attacker, Attack attack, Character defender, Defense defense)
 	{
@@ -64,5 +65,15 @@ public class AttackResult
 	public void setDamage(int damage)
 	{
 		damage_ = damage;
+	}
+	
+	public int getPenetratingDamage()
+	{
+		return penetrating_damage_;
+	}
+	
+	public void setPenetratingDamage(int penetrating_damage)
+	{
+		penetrating_damage_ = penetrating_damage;
 	}
 }
