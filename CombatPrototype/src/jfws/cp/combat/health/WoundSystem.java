@@ -22,11 +22,23 @@ public class WoundSystem
 		return value;
 	}
 	
+	public WoundLevel getWoundLevel(Character defender, int penetrating_damage)
+	{
+		int points_per_level = Math.max(defender.getAttributeLevel(toughness_), 1);
+		int wound_level = (int)Math.ceil((double)penetrating_damage / points_per_level);
+		
+		return WoundLevel.fromInteger(wound_level);
+	}
+	
 	public void handle(AttackResult result)
 	{
 		int protection = getProtectionValue(result.getDefender());
 		int penetrating_damage = result.getDamage() - protection;
 		
 		result.setPenetratingDamage(penetrating_damage);
+		
+		WoundLevel wound_level = getWoundLevel(result.getDefender(), penetrating_damage);
+		
+		result.setWoundLevel(wound_level);
 	}
 }
