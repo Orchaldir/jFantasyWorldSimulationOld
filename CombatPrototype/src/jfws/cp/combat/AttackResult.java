@@ -1,6 +1,6 @@
 package jfws.cp.combat;
 
-import jfws.cp.combat.health.WoundLevel;
+import jfws.cp.combat.health.Wound;
 
 public class AttackResult
 {
@@ -14,7 +14,8 @@ public class AttackResult
 	
 	private int damage_;
 	private int penetrating_damage_;
-	private WoundLevel wound_level_ = WoundLevel.NO_WOUND;
+	
+	private Wound wound_;
 
 	public AttackResult(Character attacker, Attack attack, Character defender, Defense defense)
 	{
@@ -80,13 +81,13 @@ public class AttackResult
 		penetrating_damage_ = penetrating_damage;
 	}
 	
-	public WoundLevel getWoundLevel()
+	public Wound getWound()
 	{
-		return wound_level_;
+		return wound_;
 	}
 	
-	public void setWoundLevel(WoundLevel wound_level)
+	public void setWound(Wound wound)
 	{
-		wound_level_ = wound_level;
+		wound_ = wound;
 	}
 }

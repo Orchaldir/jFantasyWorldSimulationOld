@@ -80,7 +80,7 @@ public class CombatPrototype
 			
 			System.out.print("Damage: " + result.getDamage());
 			System.out.print(" -> " + result.getPenetratingDamage());
-			System.out.println(" -> " + result.getWoundLevel());
+			System.out.println(" -> " + result.getWound().getLevel());
 		}
 	}
 	

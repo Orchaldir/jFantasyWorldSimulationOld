@@ -38,7 +38,8 @@ public class WoundSystem
 		result.setPenetratingDamage(penetrating_damage);
 		
 		WoundLevel wound_level = getWoundLevel(result.getDefender(), penetrating_damage);
+		Wound wound = new Wound(wound_level);
 		
-		result.setWoundLevel(wound_level);
+		result.setWound(wound);
 	}
 }
