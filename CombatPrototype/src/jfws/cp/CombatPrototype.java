@@ -15,6 +15,8 @@ import jfws.cp.combat.health.WoundSystem;
 
 public class CombatPrototype
 {
+	public static TestMgr test_mgr_ = new TestMgr(6);
+	public static WoundSystem wound_system_;
 	
 	/**
 	 * @param args the command line arguments
@@ -23,8 +25,6 @@ public class CombatPrototype
 	{
 		System.out.println("Combat Prototype");
 		System.out.println("----------------\n");
-		
-		TestMgr test_mgr = new TestMgr(6);
 		
 		AttributeMgr attribute_mgr = new AttributeMgr();
 		Attribute agility = attribute_mgr.createAttribute("Agility");
@@ -36,7 +36,7 @@ public class CombatPrototype
 		Skill fighting = skill_mgr.createSkill("Fighting", -2);
 		Skill shooting = skill_mgr.createSkill("Shooting", -2);
 		
-		WoundSystem wound_system = new WoundSystem(strength);
+		wound_system_ = new WoundSystem(strength);
 		
 		Damage swing_damage = new Damage(strength, 2);
 		Damage shoot_damage = new Damage(null, 8);
@@ -47,43 +47,64 @@ public class CombatPrototype
 		Defense dodge = new Defense("Dodge", agility, athletics, 0);
 		Defense parry = new Defense("Parry", agility, fighting, 0);
 		
+		Protection leather_armor = new Protection("Leather Armor", 2);
 		Protection mail_armor = new Protection("Mail Armor", 2);
+		Protection plate_armor = new Protection("Plate Armor", 4);
 		
-		Character character = new Character(attribute_mgr);
-		character.setAttributeLevel(agility, 1);
-		character.setAttributeLevel(strength, 3);
-		character.setSkillLevel(athletics, 2);
-		character.setSkillLevel(fighting, 3);
-		character.addProtection(mail_armor);
+		Character a = new Character("Knight", attribute_mgr);
+		a.setAttributeLevel(agility, 2);
+		a.setAttributeLevel(strength, 2);
+		a.setSkillLevel(athletics, 2);
+		a.setSkillLevel(fighting, 4);
+		a.addProtection(plate_armor);
 		
-		System.out.println(swing.getName() + ": " + swing.getAttackValue(character));
-		System.out.println(shoot.getName() + ": " + shoot.getAttackValue(character));
-		System.out.println("");
-		System.out.println(dodge.getName() + ": " + dodge.getDefenseValue(character));
-		System.out.println(parry.getName() + ": " + parry.getDefenseValue(character));
+		Character b = new Character("Bandit", attribute_mgr);
+		b.setAttributeLevel(agility, 2);
+		b.setAttributeLevel(strength, 2);
+		b.setSkillLevel(athletics, 2);
+		b.setSkillLevel(fighting, 2);
+		b.addProtection(leather_armor);
 		
-		AttackResult result = new AttackResult(character, swing, character, dodge);
-		
-		for(int i = 0; i < 10; i++)
+		while(true)
 		{
-			Attack.handle(test_mgr, result);
+			if(attack(a, swing, b, dodge))
+				return;
 			
-			System.out.println("");
-			System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
-			
-			if(!result.hasHit())
-				continue;
-			
-			Damage.handle(result);
-			
-			wound_system.handle(result);
-			
-			System.out.print("Damage: " + result.getDamage());
-			System.out.print(" -> " + result.getPenetratingDamage());
-			System.out.println(" -> " + result.getWound().getLevel());
-			
-			System.out.println("Status: " + character.getWoundComponent().getHighestWoundLevel());
+			if(attack(b, swing, a, parry))
+				return;
 		}
 	}
 	
+	public static boolean attack(Character attacker, Attack attack, Character defender, Defense defense)
+	{
+		System.out.println("");
+		System.out.println(attacker.getName() + " attacks " +  defender.getName());
+		
+		AttackResult result = new AttackResult(attacker, attack, defender, defense);
+		
+		Attack.handle(test_mgr_, result);
+
+		System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
+
+		if(!result.hasHit())
+			return false;
+
+		Damage.handle(result);
+
+		wound_system_.handle(result);
+
+		System.out.print("Damage: " + result.getDamage());
+		System.out.print(" -> " + result.getPenetratingDamage());
+		System.out.println(" -> " + result.getWound().getLevel());
+
+		System.out.println("Status: " + defender.getWoundComponent().getHighestWoundLevel());
+		
+		if(defender.getWoundComponent().isDead())
+		{
+			System.out.println(defender.getName() + " dies!");
+			return true;
+		}
+		
+		return false;
+	}
 }

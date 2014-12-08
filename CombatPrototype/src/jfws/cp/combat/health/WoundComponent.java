@@ -27,4 +27,9 @@ public class WoundComponent
 		
 		return wound_.isLess(WoundLevel.HEAVY_WOUND);
 	}
+	
+	public boolean isDead()
+	{
+		return !isAlive();
+	}
 }

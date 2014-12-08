@@ -8,6 +8,8 @@ import jfws.cp.combat.health.WoundComponent;
 
 public class Character
 {
+	private String name_;
+	
 	private List<Integer> attributes_;
 	private Map<Skill,Integer> skills_ = new HashMap<>();
 	
@@ -15,14 +17,21 @@ public class Character
 	
 	private WoundComponent wound_component_ = new WoundComponent();
 	
-	public Character(AttributeMgr attribute_mgr)
+	public Character(String name, AttributeMgr attribute_mgr)
 	{
+		name_ = name;
+		
 		attributes_ = new ArrayList<>(attribute_mgr.getNumberOfAttributes());
 		
 		for(int i = 0; i < attribute_mgr.getNumberOfAttributes(); i++)
 		{
 			attributes_.add(0);
 		}
+	}
+	
+	public String getName()
+	{
+		return name_;
 	}
 	
 	public int getAttributeLevel(Attribute attribute)
