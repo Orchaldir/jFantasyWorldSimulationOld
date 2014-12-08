@@ -36,7 +36,7 @@ public class CombatPrototype
 		Skill fighting = skill_mgr.createSkill("Fighting", -2);
 		Skill shooting = skill_mgr.createSkill("Shooting", -2);
 		
-		wound_system_ = new WoundSystem(strength);
+		wound_system_ = new WoundSystem(strength, 2);
 		
 		Damage swing_damage = new Damage(strength, 2);
 		Damage shoot_damage = new Damage(null, 8);

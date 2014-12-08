@@ -7,10 +7,12 @@ import jfws.cp.combat.Character;
 public class WoundSystem
 {
 	private Attribute toughness_;
+	private int penalty_per_level_;
 	
-	public WoundSystem(Attribute toughness)
+	public WoundSystem(Attribute toughness, int penalty_per_level)
 	{
 		toughness_ = toughness;
+		penalty_per_level_ = penalty_per_level;
 	}
 	
 	public int getProtectionValue(Character defender)
@@ -18,6 +20,10 @@ public class WoundSystem
 		int value = defender.getAttributeLevel(toughness_);
 		
 		value += defender.getProtectionValue();
+		
+		int max_wound_level = defender.getWoundComponent().getHighestWoundLevel().getLevel();
+		
+		value -= penalty_per_level_ * max_wound_level;
 		
 		return value;
 	}

@@ -14,6 +14,11 @@ public enum WoundLevel
 		level_ = level;
 	}
 	
+	public int getLevel()
+	{
+		return level_;
+	}
+	
 	public boolean isGreater(WoundLevel wound_level)
 	{
 		return level_ > wound_level.level_;
