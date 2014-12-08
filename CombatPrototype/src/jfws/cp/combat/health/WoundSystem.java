@@ -32,14 +32,17 @@ public class WoundSystem
 	
 	public void handle(AttackResult result)
 	{
-		int protection = getProtectionValue(result.getDefender());
+		Character defender = result.getDefender();
+		
+		int protection = getProtectionValue(defender);
 		int penetrating_damage = result.getDamage() - protection;
 		
 		result.setPenetratingDamage(penetrating_damage);
 		
-		WoundLevel wound_level = getWoundLevel(result.getDefender(), penetrating_damage);
+		WoundLevel wound_level = getWoundLevel(defender, penetrating_damage);
 		Wound wound = new Wound(wound_level);
 		
 		result.setWound(wound);
+		defender.getWoundComponent().addWound(wound);
 	}
 }

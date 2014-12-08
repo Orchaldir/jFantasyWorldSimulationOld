@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import jfws.cp.combat.health.WoundComponent;
 
 public class Character
 {
@@ -11,6 +12,8 @@ public class Character
 	private Map<Skill,Integer> skills_ = new HashMap<>();
 	
 	private List<Protection> protection_list_ = new ArrayList<>();
+	
+	private WoundComponent wound_component_ = new WoundComponent();
 	
 	public Character(AttributeMgr attribute_mgr)
 	{
@@ -65,5 +68,10 @@ public class Character
 		}
 		
 		return value;
+	}
+	
+	public WoundComponent getWoundComponent()
+	{
+		return wound_component_;
 	}
 }

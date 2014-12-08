@@ -61,7 +61,6 @@ public class CombatPrototype
 		System.out.println("");
 		System.out.println(dodge.getName() + ": " + dodge.getDefenseValue(character));
 		System.out.println(parry.getName() + ": " + parry.getDefenseValue(character));
-		System.out.println("");
 		
 		AttackResult result = new AttackResult(character, swing, character, dodge);
 		
@@ -69,6 +68,7 @@ public class CombatPrototype
 		{
 			Attack.handle(test_mgr, result);
 			
+			System.out.println("");
 			System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
 			
 			if(!result.hasHit())
@@ -81,6 +81,8 @@ public class CombatPrototype
 			System.out.print("Damage: " + result.getDamage());
 			System.out.print(" -> " + result.getPenetratingDamage());
 			System.out.println(" -> " + result.getWound().getLevel());
+			
+			System.out.println("Status: " + character.getWoundComponent().getHighestWoundLevel());
 		}
 	}
 	
