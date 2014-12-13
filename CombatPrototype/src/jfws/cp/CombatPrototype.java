@@ -12,11 +12,15 @@ import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
 import jfws.cp.combat.TestMgr;
 import jfws.cp.combat.health.WoundSystem;
+import jfws.cp.combat.map.Map1d;
 
 public class CombatPrototype
 {
 	public static TestMgr test_mgr_ = new TestMgr(6);
+	public static AttributeMgr attribute_mgr_ = new AttributeMgr();
+	public static SkillMgr skill_mgr_ = new SkillMgr();
 	public static WoundSystem wound_system_;
+	public static Map1d map_;
 	
 	/**
 	 * @param args the command line arguments
@@ -26,15 +30,13 @@ public class CombatPrototype
 		System.out.println("Combat Prototype");
 		System.out.println("----------------\n");
 		
-		AttributeMgr attribute_mgr = new AttributeMgr();
-		Attribute agility = attribute_mgr.createAttribute("Agility");
-		Attribute perception = attribute_mgr.createAttribute("Perception");
-		Attribute strength = attribute_mgr.createAttribute("Strength");
+		Attribute agility = attribute_mgr_.createAttribute("Agility");
+		Attribute perception = attribute_mgr_.createAttribute("Perception");
+		Attribute strength = attribute_mgr_.createAttribute("Strength");
 		
-		SkillMgr skill_mgr = new SkillMgr();
-		Skill athletics = skill_mgr.createSkill("Athletics", -2);
-		Skill fighting = skill_mgr.createSkill("Fighting", -2);
-		Skill shooting = skill_mgr.createSkill("Shooting", -2);
+		Skill athletics = skill_mgr_.createSkill("Athletics", -2);
+		Skill fighting = skill_mgr_.createSkill("Fighting", -2);
+		Skill shooting = skill_mgr_.createSkill("Shooting", -2);
 		
 		wound_system_ = new WoundSystem(strength, 2);
 		
@@ -51,19 +53,24 @@ public class CombatPrototype
 		Protection mail_armor = new Protection("Mail Armor", 2);
 		Protection plate_armor = new Protection("Plate Armor", 4);
 		
-		Character a = new Character("Knight", attribute_mgr);
+		Character a = new Character("Knight", attribute_mgr_);
 		a.setAttributeLevel(agility, 2);
 		a.setAttributeLevel(strength, 2);
 		a.setSkillLevel(athletics, 2);
 		a.setSkillLevel(fighting, 4);
 		a.addProtection(plate_armor);
 		
-		Character b = new Character("Bandit", attribute_mgr);
+		Character b = new Character("Bandit", attribute_mgr_);
 		b.setAttributeLevel(agility, 2);
 		b.setAttributeLevel(strength, 2);
 		b.setSkillLevel(athletics, 2);
 		b.setSkillLevel(fighting, 2);
 		b.addProtection(leather_armor);
+		
+		map_ = new Map1d(10);
+		map_.setCharacter(a, 1);
+		map_.setCharacter(b, 8);
+		map_.render();
 		
 		while(true)
 		{
