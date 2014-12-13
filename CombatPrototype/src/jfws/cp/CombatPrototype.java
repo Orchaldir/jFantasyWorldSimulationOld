@@ -13,6 +13,7 @@ import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
 import jfws.cp.combat.TestMgr;
 import jfws.cp.combat.health.WoundSystem;
+import jfws.cp.combat.map.Direction1d;
 import jfws.cp.combat.map.Map1d;
 
 public class CombatPrototype
@@ -112,6 +113,39 @@ public class CombatPrototype
 			}
 			
 			return attack(attacker, attack, defender, defense);
+		}
+		else if(parts[0].equals("move"))
+		{
+			if(parts.length != 2)
+			{
+				System.err.println("Move command is invalid!");
+				return false;
+			}
+			
+			Direction1d dir;
+			
+			if(parts[1].equals("left"))
+			{
+				dir = Direction1d.LEFT;
+			}
+			else if(parts[1].equals("right"))
+			{
+				dir = Direction1d.RIGHT;
+			}
+			else
+			{
+				System.err.println("Invalid Direction!");
+				return false;
+			}
+			
+			if(!map_.moveCharacter(attacker, dir))
+			{
+				System.err.println("Could not move!");
+			}
+			
+			map_.render();
+			
+			return false;
 		}
 		
 		System.err.println("Unknown command!");

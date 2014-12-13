@@ -14,6 +14,24 @@ public class Map1d
 		cells_ = new Character[size];
 	}
 	
+	public int getLeft(int index)
+	{
+		return index - 1;
+	}
+	
+	public int getRight(int index)
+	{
+		return index + 1;
+	}
+	
+	public int getNeighbor(int index, Direction1d dir)
+	{
+		if(dir == Direction1d.LEFT)
+			return getLeft(index);
+		else
+			return getRight(index);
+	}
+	
 	public boolean isInside(int index)
 	{
 		return index >= 0 && index < cells_.length;
@@ -41,12 +59,32 @@ public class Map1d
 		}
 		else
 		{
+			cells_[pose.index_] = null;
 			pose.index_ = index;
 		}
 		
 		cells_[index] = character;
 		
 		return true;
+	}
+	
+	public boolean moveCharacter(Character character, Direction1d dir)
+	{
+		if(character == null)
+		{
+			throw new IllegalArgumentException("Character cannot be null!");
+		}
+		
+		Pose1d pose = poses_.get(character);
+		
+		if(pose == null)
+		{
+			throw new IllegalArgumentException("Character has no Pose1d!");
+		}
+		
+		int new_index = getNeighbor(pose.index_, dir);
+		
+		return setCharacter(character, new_index);
 	}
 	
 	public void render()
