@@ -17,6 +17,8 @@ public class Character
 	
 	private WoundComponent wound_component_ = new WoundComponent();
 	
+	private Map<String,Attack> attacks_ = new HashMap<>();
+	
 	public Character(String name, AttributeMgr attribute_mgr)
 	{
 		name_ = name;
@@ -82,5 +84,15 @@ public class Character
 	public WoundComponent getWoundComponent()
 	{
 		return wound_component_;
+	}
+	
+	public void addAttack(Attack attack)
+	{
+		attacks_.put(attack.getName(), attack);
+	}
+	
+	public Attack getAttack(String attack)
+	{
+		return attacks_.get(attack);
 	}
 }

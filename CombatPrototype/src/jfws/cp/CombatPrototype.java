@@ -1,5 +1,6 @@
 package jfws.cp;
 
+import java.util.Scanner;
 import jfws.cp.combat.Attack;
 import jfws.cp.combat.AttackResult;
 import jfws.cp.combat.Attribute;
@@ -21,6 +22,8 @@ public class CombatPrototype
 	public static SkillMgr skill_mgr_ = new SkillMgr();
 	public static WoundSystem wound_system_;
 	public static Map1d map_;
+	
+	public static Scanner input_ = new Scanner(System.in);
 	
 	/**
 	 * @param args the command line arguments
@@ -59,6 +62,7 @@ public class CombatPrototype
 		a.setSkillLevel(athletics, 2);
 		a.setSkillLevel(fighting, 4);
 		a.addProtection(plate_armor);
+		a.addAttack(swing);
 		
 		Character b = new Character("Bandit", attribute_mgr_);
 		b.setAttributeLevel(agility, 2);
@@ -66,6 +70,7 @@ public class CombatPrototype
 		b.setSkillLevel(athletics, 2);
 		b.setSkillLevel(fighting, 2);
 		b.addProtection(leather_armor);
+		b.addAttack(swing);
 		
 		map_ = new Map1d(10);
 		map_.setCharacter(a, 1);
@@ -74,18 +79,50 @@ public class CombatPrototype
 		
 		while(true)
 		{
-			if(attack(a, swing, b, dodge))
+			if(act(a, b, dodge))
 				return;
 			
-			if(attack(b, swing, a, parry))
+			if(act(b, a, parry))
 				return;
 		}
 	}
 	
-	public static boolean attack(Character attacker, Attack attack, Character defender, Defense defense)
+	public static boolean act(Character attacker, Character defender, Defense defense)
 	{
 		System.out.println("");
-		System.out.println(attacker.getName() + " attacks " +  defender.getName());
+		System.out.print(attacker.getName() + "'s action: ");
+		
+		String command = input_.nextLine();
+		String[] parts = command.split(" ");
+		
+		if(parts[0].equals("attack"))
+		{
+			if(parts.length != 2)
+			{
+				System.err.println("Attack command is invalid!");
+				return false;
+			}
+				
+			Attack attack = attacker.getAttack(parts[1]);
+			
+			if(attack == null)
+			{
+				System.err.println(attacker.getName() +" does not have Attack \"" + parts[1] + "\"!");
+				return false;
+			}
+			
+			return attack(attacker, attack, defender, defense);
+		}
+		
+		System.err.println("Unknown command!");
+		
+		return false;
+	}
+	
+	public static boolean attack(Character attacker, Attack attack, Character defender, Defense defense)
+	{
+		System.out.println(attacker.getName()+ "'s " + attack.getName() + " VS "
+				+  defender.getName()+ "'s " + defense.getName());
 		
 		AttackResult result = new AttackResult(attacker, attack, defender, defense);
 		
