@@ -10,7 +10,9 @@ public class Attack
 	
 	private Damage damage_;
 	
-	public Attack(String name, Attribute attribute, Skill skill, int modifier, Damage damage)
+	private Range range_;
+	
+	public Attack(String name, Attribute attribute, Skill skill, int modifier, Damage damage, Range range)
 	{
 		name_ = name;
 		
@@ -19,6 +21,8 @@ public class Attack
 		modifier_ = modifier;
 		
 		damage_ = damage;
+		
+		range_ = range;
 	}
 	
 	public String getName()
@@ -29,6 +33,11 @@ public class Attack
 	public Damage getDamage()
 	{
 		return damage_;
+	}
+	
+	public Range getRange()
+	{
+		return range_;
 	}
 	
 	public int getAttackValue(Character attacker)

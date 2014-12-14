@@ -9,6 +9,7 @@ import jfws.cp.combat.Character;
 import jfws.cp.combat.Damage;
 import jfws.cp.combat.Defense;
 import jfws.cp.combat.Protection;
+import jfws.cp.combat.Range;
 import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
 import jfws.cp.combat.TestMgr;
@@ -44,11 +45,14 @@ public class CombatPrototype
 		
 		wound_system_ = new WoundSystem(strength, 2);
 		
-		Damage swing_damage = new Damage(strength, 2);
-		Damage shoot_damage = new Damage(null, 8);
+		Damage sword_damage = new Damage(strength, 2);
+		Damage bow_damage = new Damage(null, 4);
 		
-		Attack swing = new Attack("Swing", agility, fighting, 0, swing_damage);
-		Attack shoot = new Attack("Shoot", perception, shooting, 0, shoot_damage);
+		Range sword_range = new Range(1, null, 0);
+		Range bow_range = new Range(200, strength, 10);
+		
+		Attack sword = new Attack("Sword", agility, fighting, 0, sword_damage, sword_range);
+		Attack bow = new Attack("Bow", perception, shooting, 0, bow_damage, bow_range);
 		
 		Defense dodge = new Defense("Dodge", agility, athletics, 0);
 		Defense parry = new Defense("Parry", agility, fighting, 0);
@@ -63,15 +67,18 @@ public class CombatPrototype
 		a.setSkillLevel(athletics, 2);
 		a.setSkillLevel(fighting, 4);
 		a.addProtection(plate_armor);
-		a.addAttack(swing);
+		a.addAttack(sword);
 		
 		Character b = new Character("Bandit", attribute_mgr_);
 		b.setAttributeLevel(agility, 2);
 		b.setAttributeLevel(strength, 2);
+		b.setAttributeLevel(perception, 2);
 		b.setSkillLevel(athletics, 2);
 		b.setSkillLevel(fighting, 2);
+		b.setSkillLevel(shooting, 2);
 		b.addProtection(leather_armor);
-		b.addAttack(swing);
+		b.addAttack(bow);
+		b.addAttack(sword);
 		
 		map_ = new Map1d(10);
 		map_.setCharacter(a, 1);
@@ -111,6 +118,9 @@ public class CombatPrototype
 				System.err.println(attacker.getName() +" does not have Attack \"" + parts[1] + "\"!");
 				return false;
 			}
+			
+			if(!canAttack(attacker, attack, defender))
+				return false;
 			
 			return attack(attacker, attack, defender, defense);
 		}
@@ -153,10 +163,25 @@ public class CombatPrototype
 		return false;
 	}
 	
+	public static boolean canAttack(Character attacker, Attack attack, Character defender)
+	{
+		int range = map_.getDistance(attacker, defender);
+		int max_range = attack.getRange().getRange(attacker);
+		
+		if(range > max_range)
+		{
+			System.err.println(defender.getName()+ " is out of range!");
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static boolean attack(Character attacker, Attack attack, Character defender, Defense defense)
 	{
 		System.out.println(attacker.getName()+ "'s " + attack.getName() + " VS "
-				+  defender.getName()+ "'s " + defense.getName());
+				+ defender.getName()+ "'s " + defense.getName());
 		
 		AttackResult result = new AttackResult(attacker, attack, defender, defense);
 		

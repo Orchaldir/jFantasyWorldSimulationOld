@@ -32,6 +32,19 @@ public class Map1d
 			return getRight(index);
 	}
 	
+	public int getDistance(int a, int b)
+	{
+		return Math.abs(b - a);
+	}
+	
+	public int getDistance(Character a, Character b)
+	{
+		Pose1d pose_a = poses_.get(a);
+		Pose1d pose_b = poses_.get(b);
+		
+		return getDistance(pose_a.index_, pose_b.index_);
+	}
+	
 	public boolean isInside(int index)
 	{
 		return index >= 0 && index < cells_.length;
