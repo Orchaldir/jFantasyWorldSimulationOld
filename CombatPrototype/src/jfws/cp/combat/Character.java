@@ -18,6 +18,7 @@ public class Character
 	private WoundComponent wound_component_ = new WoundComponent();
 	
 	private Map<String,Attack> attacks_ = new HashMap<>();
+	private Map<String,Defense> defenses_ = new HashMap<>();
 	
 	public Character(String name, AttributeMgr attribute_mgr)
 	{
@@ -91,8 +92,18 @@ public class Character
 		attacks_.put(attack.getName(), attack);
 	}
 	
-	public Attack getAttack(String attack)
+	public Attack getAttack(String name)
 	{
-		return attacks_.get(attack);
+		return attacks_.get(name);
+	}
+	
+	public void addDefense(Defense defense)
+	{
+		defenses_.put(defense.getName(), defense);
+	}
+	
+	public Defense getDefense(String name)
+	{
+		return defenses_.get(name);
 	}
 }

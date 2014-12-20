@@ -1,5 +1,9 @@
 package jfws.cp;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Scanner;
 import jfws.cp.combat.Attack;
 import jfws.cp.combat.AttackResult;
@@ -24,6 +28,7 @@ public class CombatPrototype
 	public static SkillMgr skill_mgr_ = new SkillMgr();
 	public static WoundSystem wound_system_;
 	public static Map1d map_;
+	public static Map<String,Character> characters_ = new HashMap<>();
 	
 	public static Scanner input_ = new Scanner(System.in);
 	
@@ -68,6 +73,7 @@ public class CombatPrototype
 		a.setSkillLevel(fighting, 4);
 		a.addProtection(plate_armor);
 		a.addAttack(sword);
+		a.addDefense(parry);
 		
 		Character b = new Character("Bandit", attribute_mgr_);
 		b.setAttributeLevel(agility, 2);
@@ -79,50 +85,95 @@ public class CombatPrototype
 		b.addProtection(leather_armor);
 		b.addAttack(bow);
 		b.addAttack(sword);
+		b.addDefense(dodge);
 		
 		map_ = new Map1d(10);
 		map_.setCharacter(a, 1);
-		map_.setCharacter(b, 8);
+		map_.setCharacter(b, 2);
 		map_.render();
 		
-		while(true)
+		characters_.put(a.getName(), a);
+		characters_.put(b.getName(), b);
+		
+		Queue<Character> order = new LinkedList<>();
+		order.add(a);
+		order.add(b);
+		
+		while(!order.isEmpty())
 		{
-			if(act(a, b, dodge))
-				return;
+			Character current = order.peek();
 			
-			if(act(b, a, parry))
-				return;
+			if(current.getWoundComponent().isDead())
+			{
+				order.poll();
+				continue;
+			}
+			
+			if(!act(current))
+				continue;
+			
+			order.poll();
+			order.add(current);
 		}
 	}
 	
-	public static boolean act(Character attacker, Character defender, Defense defense)
+	public static boolean act(Character character)
 	{
 		System.out.println("");
-		System.out.print(attacker.getName() + "'s action: ");
+		System.out.print(character.getName() + "'s action: ");
 		
 		String command = input_.nextLine();
 		String[] parts = command.split(" ");
 		
 		if(parts[0].equals("attack"))
 		{
-			if(parts.length != 2)
+			if(parts.length != 3)
 			{
 				System.err.println("Attack command is invalid!");
 				return false;
 			}
-				
-			Attack attack = attacker.getAttack(parts[1]);
 			
-			if(attack == null)
+			String target_name = parts[1];
+			
+			if(character.getName().equals(target_name))
 			{
-				System.err.println(attacker.getName() +" does not have Attack \"" + parts[1] + "\"!");
+				System.err.println("Character can't attack itself!");
 				return false;
 			}
 			
-			if(!canAttack(attacker, attack, defender))
+			Character target = characters_.get(target_name);
+			
+			if(target == null)
+			{
+				System.err.println("Character \"" + target_name + "\" does not exist!");
+				return false;
+			}
+			
+			String attack_name = parts[2];
+			Attack attack = character.getAttack(attack_name);
+			
+			if(attack == null)
+			{
+				System.err.println(character.getName() +" does not have Attack \"" + attack_name + "\"!");
+				return false;
+			}
+			
+			if(!canAttack(character, attack, target))
 				return false;
 			
-			return attack(attacker, attack, defender, defense);
+			System.out.print(target.getName() + "'s defense: ");
+			String defense_name = input_.nextLine();
+			Defense defense = target.getDefense(defense_name);
+			
+			if(defense == null)
+			{
+				System.err.println(target.getName() +" does not have Defense \"" + defense_name + "\"!");
+				return false;
+			}
+			
+			attack(character, attack, target, defense);
+			
+			return true;
 		}
 		else if(parts[0].equals("move"))
 		{
@@ -132,13 +183,14 @@ public class CombatPrototype
 				return false;
 			}
 			
+			String dir_name_ = parts[1];
 			Direction1d dir;
 			
-			if(parts[1].equals("left"))
+			if(dir_name_.equals("left"))
 			{
 				dir = Direction1d.LEFT;
 			}
-			else if(parts[1].equals("right"))
+			else if(dir_name_.equals("right"))
 			{
 				dir = Direction1d.RIGHT;
 			}
@@ -148,14 +200,15 @@ public class CombatPrototype
 				return false;
 			}
 			
-			if(!map_.moveCharacter(attacker, dir))
+			if(!map_.moveCharacter(character, dir))
 			{
 				System.err.println("Could not move!");
+				return false;
 			}
 			
 			map_.render();
 			
-			return false;
+			return true;
 		}
 		
 		System.err.println("Unknown command!");
@@ -178,7 +231,7 @@ public class CombatPrototype
 		return true;
 	}
 	
-	public static boolean attack(Character attacker, Attack attack, Character defender, Defense defense)
+	public static void attack(Character attacker, Attack attack, Character defender, Defense defense)
 	{
 		System.out.println(attacker.getName()+ "'s " + attack.getName() + " VS "
 				+ defender.getName()+ "'s " + defense.getName());
@@ -190,7 +243,7 @@ public class CombatPrototype
 		System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
 
 		if(!result.hasHit())
-			return false;
+			return;
 
 		Damage.handle(result);
 
@@ -205,9 +258,6 @@ public class CombatPrototype
 		if(defender.getWoundComponent().isDead())
 		{
 			System.out.println(defender.getName() + " dies!");
-			return true;
 		}
-		
-		return false;
 	}
 }
