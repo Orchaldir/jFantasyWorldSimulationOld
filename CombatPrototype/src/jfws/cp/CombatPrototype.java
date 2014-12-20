@@ -1,8 +1,6 @@
 package jfws.cp;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 import jfws.cp.combat.Attack;
@@ -10,6 +8,7 @@ import jfws.cp.combat.AttackResult;
 import jfws.cp.combat.Attribute;
 import jfws.cp.combat.AttributeMgr;
 import jfws.cp.combat.Character;
+import jfws.cp.combat.CharacterMgr;
 import jfws.cp.combat.Damage;
 import jfws.cp.combat.Defense;
 import jfws.cp.combat.Protection;
@@ -27,8 +26,8 @@ public class CombatPrototype
 	public static AttributeMgr attribute_mgr_ = new AttributeMgr();
 	public static SkillMgr skill_mgr_ = new SkillMgr();
 	public static WoundSystem wound_system_;
+	public static CharacterMgr character_mgr_;
 	public static Map1d map_;
-	public static Map<String,Character> characters_ = new HashMap<>();
 	
 	public static Scanner input_ = new Scanner(System.in);
 	
@@ -50,6 +49,8 @@ public class CombatPrototype
 		
 		wound_system_ = new WoundSystem(strength, 2);
 		
+		character_mgr_ = new CharacterMgr(attribute_mgr_);
+		
 		Damage sword_damage = new Damage(strength, 2);
 		Damage bow_damage = new Damage(null, 4);
 		
@@ -66,7 +67,7 @@ public class CombatPrototype
 		Protection mail_armor = new Protection("Mail Armor", 2);
 		Protection plate_armor = new Protection("Plate Armor", 4);
 		
-		Character a = new Character("Knight", attribute_mgr_);
+		Character a = character_mgr_.create("Knight");
 		a.setAttributeLevel(agility, 2);
 		a.setAttributeLevel(strength, 2);
 		a.setSkillLevel(athletics, 2);
@@ -75,7 +76,7 @@ public class CombatPrototype
 		a.addAttack(sword);
 		a.addDefense(parry);
 		
-		Character b = new Character("Bandit", attribute_mgr_);
+		Character b = character_mgr_.create("Bandit");
 		b.setAttributeLevel(agility, 2);
 		b.setAttributeLevel(strength, 2);
 		b.setAttributeLevel(perception, 2);
@@ -91,9 +92,6 @@ public class CombatPrototype
 		map_.setCharacter(a, 1);
 		map_.setCharacter(b, 2);
 		map_.render();
-		
-		characters_.put(a.getName(), a);
-		characters_.put(b.getName(), b);
 		
 		Queue<Character> order = new LinkedList<>();
 		order.add(a);
@@ -141,7 +139,7 @@ public class CombatPrototype
 				return false;
 			}
 			
-			Character target = characters_.get(target_name);
+			Character target = character_mgr_.get(target_name);
 			
 			if(target == null)
 			{
