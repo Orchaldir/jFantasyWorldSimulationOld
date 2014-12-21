@@ -1,8 +1,5 @@
 package jfws.cp;
 
-import com.sun.org.apache.bcel.internal.generic.TABLESWITCH;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 import jfws.cp.combat.Attack;
 import jfws.cp.combat.AttackResult;
@@ -160,14 +157,18 @@ public class CombatPrototype
 			if(!canAttack(character, attack, target))
 				return false;
 			
-			System.out.print(target.getName() + "'s defense: ");
-			String defense_name = input_.nextLine();
-			Defense defense = target.getDefense(defense_name);
+			Defense defense = null;
 			
-			if(defense == null)
+			while(defense == null)
 			{
-				System.err.println(target.getName() +" does not have Defense \"" + defense_name + "\"!");
-				return false;
+				System.out.print(target.getName() + "'s defense: ");
+				String defense_name = input_.nextLine();
+				defense = target.getDefense(defense_name);
+			
+				if(defense == null)
+				{
+					System.err.println(target.getName() +" does not have Defense \"" + defense_name + "\"!");
+				}
 			}
 			
 			attack(character, attack, target, defense);
