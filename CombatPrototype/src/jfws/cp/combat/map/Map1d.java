@@ -55,8 +55,13 @@ public class Map1d
 		return cells_[index] == null;
 	}
 	
-	public boolean setCharacter(Character character, int index)
+	public boolean set(Character character, int index)
 	{
+		if(character == null)
+		{
+			throw new IllegalArgumentException("Character cannot be null!");
+		}
+		
 		if(!isInside(index))
 			return false;
 		
@@ -81,7 +86,7 @@ public class Map1d
 		return true;
 	}
 	
-	public boolean moveCharacter(Character character, Direction1d dir)
+	public boolean move(Character character, Direction1d dir)
 	{
 		if(character == null)
 		{
@@ -97,7 +102,21 @@ public class Map1d
 		
 		int new_index = getNeighbor(pose.index_, dir);
 		
-		return setCharacter(character, new_index);
+		return set(character, new_index);
+	}
+	
+	public void remove(Character character)
+	{
+		if(character == null)
+		{
+			throw new IllegalArgumentException("Character cannot be null!");
+		}
+		
+		for(int i = 0; i < cells_.length; i++)
+		{
+			if(cells_[i] == character)
+				cells_[i] = null;
+		}
 	}
 	
 	public void render()

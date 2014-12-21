@@ -1,5 +1,6 @@
 package jfws.cp;
 
+import com.sun.org.apache.bcel.internal.generic.TABLESWITCH;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
 import jfws.cp.combat.TestMgr;
 import jfws.cp.combat.health.WoundSystem;
+import jfws.cp.combat.initiative.TurnBasedInitiative;
 import jfws.cp.combat.map.Direction1d;
 import jfws.cp.combat.map.Map1d;
 
@@ -27,6 +29,7 @@ public class CombatPrototype
 	public static SkillMgr skill_mgr_ = new SkillMgr();
 	public static WoundSystem wound_system_;
 	public static CharacterMgr character_mgr_;
+	public static TurnBasedInitiative initiative_ = new TurnBasedInitiative();
 	public static Map1d map_;
 	
 	public static Scanner input_ = new Scanner(System.in);
@@ -89,29 +92,27 @@ public class CombatPrototype
 		b.addDefense(dodge);
 		
 		map_ = new Map1d(10);
-		map_.setCharacter(a, 1);
-		map_.setCharacter(b, 2);
+		map_.set(a, 1);
+		map_.set(b, 2);
 		map_.render();
 		
-		Queue<Character> order = new LinkedList<>();
-		order.add(a);
-		order.add(b);
+		initiative_.add(a);
+		initiative_.add(b);
 		
-		while(!order.isEmpty())
+		while(true)
 		{
-			Character current = order.peek();
+			Character current = initiative_.getCurrent();
 			
 			if(current.getWoundComponent().isDead())
 			{
-				order.poll();
+				initiative_.remove(current);
 				continue;
 			}
 			
 			if(!act(current))
 				continue;
 			
-			order.poll();
-			order.add(current);
+			initiative_.update(current);
 		}
 	}
 	
@@ -198,7 +199,7 @@ public class CombatPrototype
 				return false;
 			}
 			
-			if(!map_.moveCharacter(character, dir))
+			if(!map_.move(character, dir))
 			{
 				System.err.println("Could not move!");
 				return false;
@@ -255,7 +256,14 @@ public class CombatPrototype
 		
 		if(defender.getWoundComponent().isDead())
 		{
-			System.out.println(defender.getName() + " dies!");
+			onDeath(defender);
 		}
+	}
+	
+	public static void onDeath(Character character)
+	{
+		System.out.println(character.getName() + " dies!");
+		initiative_.remove(character);
+		map_.remove(character);
 	}
 }
