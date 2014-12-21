@@ -2,7 +2,6 @@ package jfws.cp.combat;
 
 import java.util.HashMap;
 import java.util.Map;
-import static jfws.cp.CombatPrototype.attribute_mgr_;
 
 public class CharacterMgr
 {
@@ -17,11 +16,11 @@ public class CharacterMgr
 	public Character create(String name)
 	{
 		if(name == null)
-			throw new IllegalArgumentException("Argument name can not be null!");
+			throw new IllegalArgumentException("Name can not be null!");
 		else if(name.isEmpty())
-			throw new IllegalArgumentException("Argument name can not be empty!");
+			throw new IllegalArgumentException("Name can not be empty!");
 		else if(characters_.containsKey(name))
-			throw new IllegalArgumentException("Character \"" + name + "\"already exists!");
+			throw new IllegalArgumentException("Character \"" + name + "\" already exists!");
 		
 		Character character = new Character(name, attribute_mgr_);
 		

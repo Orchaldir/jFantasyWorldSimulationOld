@@ -10,9 +10,11 @@ public class SkillMgr
 	public Skill createSkill(String name, int default_level)
 	{
 		if(name == null)
-			throw new IllegalArgumentException("Argument name can not be null!");
+			throw new IllegalArgumentException("Name can not be null!");
 		else if(name.isEmpty())
-			throw new IllegalArgumentException("Argument name can not be empty!");
+			throw new IllegalArgumentException("Name can not be empty!");
+		else if(skills_.containsKey(name))
+			throw new IllegalArgumentException("Skill \"" + name + "\" already exists!");
 		
 		Skill new_skill = new Skill(name, default_level);
 		
@@ -24,9 +26,9 @@ public class SkillMgr
 	public Skill getSkill(String name)
 	{
 		if(name == null)
-			throw new IllegalArgumentException("Argument name can not be null!");
+			throw new IllegalArgumentException("Name can not be null!");
 		else if(name.isEmpty())
-			throw new IllegalArgumentException("Argument name can not be empty!");
+			throw new IllegalArgumentException("Name can not be empty!");
 		
 		return skills_.get(name);
 	}

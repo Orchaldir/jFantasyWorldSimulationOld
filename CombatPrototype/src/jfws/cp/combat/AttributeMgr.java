@@ -15,9 +15,11 @@ public class AttributeMgr
 	public Attribute createAttribute(String name)
 	{
 		if(name == null)
-			throw new IllegalArgumentException("Argument name can not be null!");
+			throw new IllegalArgumentException("Name can not be null!");
 		else if(name.isEmpty())
-			throw new IllegalArgumentException("Argument name can not be empty!");
+			throw new IllegalArgumentException("Name can not be empty!");
+		else if(attributes_.containsKey(name))
+			throw new IllegalArgumentException("Attribute \"" + name + "\" already exists!");
 		
 		Attribute new_attribute = new Attribute(name, getNumberOfAttributes());
 		
@@ -29,9 +31,9 @@ public class AttributeMgr
 	public Attribute getAttribute(String name)
 	{
 		if(name == null)
-			throw new IllegalArgumentException("Argument name can not be null!");
+			throw new IllegalArgumentException("Name can not be null!");
 		else if(name.isEmpty())
-			throw new IllegalArgumentException("Argument name can not be empty!");
+			throw new IllegalArgumentException("Name can not be empty!");
 		
 		return attributes_.get(name);
 	}
