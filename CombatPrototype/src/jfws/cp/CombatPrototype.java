@@ -115,14 +115,14 @@ public class CombatPrototype
 				continue;
 			}
 			
-			if(!act(current))
+			if(!processInput(current))
 				continue;
 			
 			initiative_.update(current);
 		}
 	}
 	
-	public static boolean act(Character character)
+	public static boolean processInput(Character character)
 	{
 		System.out.println("");
 		System.out.print(character.getName() + "'s action: ");
@@ -132,97 +132,127 @@ public class CombatPrototype
 		
 		if(parts[0].equals("attack"))
 		{
-			if(parts.length != 3)
-			{
-				System.err.println("Attack command is invalid!");
-				return false;
-			}
-			
-			String target_name = parts[1];
-			
-			if(character.getName().equals(target_name))
-			{
-				System.err.println("Character can't attack itself!");
-				return false;
-			}
-			
-			Character target = character_mgr_.get(target_name);
-			
-			if(target == null)
-			{
-				System.err.println("Character \"" + target_name + "\" does not exist!");
-				return false;
-			}
-			
-			String attack_name = parts[2];
-			Attack attack = character.getAttack(attack_name);
-			
-			if(attack == null)
-			{
-				System.err.println(character.getName() +" does not have Attack \"" + attack_name + "\"!");
-				return false;
-			}
-			
-			if(!canAttack(character, attack, target))
-				return false;
-			
-			Defense defense = null;
-			
-			while(defense == null)
-			{
-				System.out.print(target.getName() + "'s defense: ");
-				String defense_name = input_.nextLine();
-				defense = target.getDefense(defense_name);
-			
-				if(defense == null)
-				{
-					System.err.println(target.getName() +" does not have Defense \"" + defense_name + "\"!");
-				}
-			}
-			
-			attack(character, attack, target, defense);
-			
-			return true;
+			return processAttack(character, parts);
 		}
 		else if(parts[0].equals("move"))
 		{
-			if(parts.length != 2)
-			{
-				System.err.println("Move command is invalid!");
-				return false;
-			}
-			
-			String dir_name_ = parts[1];
-			Direction1d dir;
-			
-			if(dir_name_.equals("left"))
-			{
-				dir = Direction1d.LEFT;
-			}
-			else if(dir_name_.equals("right"))
-			{
-				dir = Direction1d.RIGHT;
-			}
-			else
-			{
-				System.err.println("Invalid Direction!");
-				return false;
-			}
-			
-			if(!map_.move(character, dir))
-			{
-				System.err.println("Could not move!");
-				return false;
-			}
-			
-			map_.render();
-			
-			return true;
+			return processMove(character, parts);
 		}
 		
 		System.err.println("Unknown command!");
 		
 		return false;
+	}
+	
+	public static boolean processAttack(Character character, String[] parts)
+	{
+		if(parts.length != 3)
+		{
+			System.err.println("Attack command is invalid!");
+			return false;
+		}
+
+		String target_name = parts[1];
+
+		if(character.getName().equals(target_name))
+		{
+			System.err.println("Character can't attack itself!");
+			return false;
+		}
+
+		Character target = character_mgr_.get(target_name);
+
+		if(target == null)
+		{
+			System.err.println("Character \"" + target_name + "\" does not exist!");
+			return false;
+		}
+
+		String attack_name = parts[2];
+		Attack attack = character.getAttack(attack_name);
+
+		if(attack == null)
+		{
+			System.err.println(character.getName() + " does not have Attack \"" + attack_name + "\"!");
+			return false;
+		}
+
+		if(!canAttack(character, attack, target))
+			return false;
+
+		Defense defense = processDefense(target, attack);
+
+		if(defense == null)
+			return false;
+		
+		attack(character, attack, target, defense);
+
+		return true;
+	}
+	
+	public static Defense processDefense(Character target, Attack attack)
+	{
+		Defense defense = null;
+
+		while(defense == null)
+		{
+			System.out.print(target.getName() + "'s defense: ");
+			String defense_name = input_.nextLine();
+			
+			if(defense_name.isEmpty())
+			{
+				defense = target.getBestDefense(attack);
+			}
+			else if(defense_name.equals("back"))
+			{
+				return null;
+			}
+			else
+			{
+				defense = target.getDefense(defense_name);
+			}
+
+			if(defense == null)
+				System.err.println(target.getName() + " does not have Defense \"" + defense_name + "\"!");
+		}
+		
+		return defense;
+	}
+	
+	public static boolean processMove(Character character, String[] parts)
+	{
+		if(parts.length != 2)
+		{
+			System.err.println("Move command is invalid!");
+			return false;
+		}
+
+		String dir_name_ = parts[1];
+		Direction1d dir;
+
+		if(dir_name_.equals("left"))
+		{
+			dir = Direction1d.LEFT;
+		}
+		else if(dir_name_.equals("right"))
+		{
+			dir = Direction1d.RIGHT;
+		}
+		else
+		{
+			System.err.println("Invalid Direction!");
+			return false;
+		}
+
+		if(!map_.move(character, dir))
+		{
+			System.err.println("Could not move!");
+			return false;
+		}
+
+		map_.render();
+
+		return true;
 	}
 	
 	public static boolean canAttack(Character attacker, Attack attack, Character defender)

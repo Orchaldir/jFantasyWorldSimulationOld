@@ -107,4 +107,9 @@ public class Character
 	{
 		return defenses_.get(name);
 	}
+	
+	public Defense getBestDefense(Attack attack)
+	{
+		return (Defense)defenses_.values().toArray()[0];
+	}
 }
