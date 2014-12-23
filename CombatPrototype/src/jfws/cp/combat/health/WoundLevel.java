@@ -7,16 +7,11 @@ public enum WoundLevel
 	MEDIUM_WOUND(2),
 	HEAVY_WOUND(3);
 	
-	private int level_;
+	private final int level_;
 
 	private WoundLevel(int level)
 	{
 		level_ = level;
-	}
-	
-	public int getLevel()
-	{
-		return level_;
 	}
 	
 	public boolean isGreater(WoundLevel wound_level)
@@ -27,6 +22,11 @@ public enum WoundLevel
 	public boolean isLess(WoundLevel wound_level)
 	{
 		return level_ < wound_level.level_;
+	}
+	
+	public int toInteger()
+	{
+		return level_;
 	}
 	
 	public static WoundLevel fromInteger(int value)

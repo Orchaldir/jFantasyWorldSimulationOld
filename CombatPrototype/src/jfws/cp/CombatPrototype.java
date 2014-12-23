@@ -79,22 +79,31 @@ public class CombatPrototype
 		Character b = character_mgr_.create("Bandit");
 		b.setAttributeLevel(agility, 2);
 		b.setAttributeLevel(strength, 2);
-		b.setAttributeLevel(perception, 2);
 		b.setSkillLevel(athletics, 2);
 		b.setSkillLevel(fighting, 2);
-		b.setSkillLevel(shooting, 2);
 		b.addProtection(leather_armor);
-		b.addAttack(bow);
 		b.addAttack(sword);
 		b.addDefense(dodge);
+		
+		Character c = character_mgr_.create("Archer");
+		c.setAttributeLevel(agility, 2);
+		c.setAttributeLevel(strength, 2);
+		c.setAttributeLevel(perception, 2);
+		c.setSkillLevel(athletics, 2);
+		c.setSkillLevel(shooting, 2);
+		c.addProtection(leather_armor);
+		c.addAttack(bow);
+		c.addDefense(dodge);
 		
 		map_ = new Map1d(10);
 		map_.set(a, 1);
 		map_.set(b, 2);
+		map_.set(c, 8);
 		map_.render();
 		
 		initiative_.add(a);
 		initiative_.add(b);
+		initiative_.add(c);
 		
 		while(true)
 		{
@@ -253,7 +262,7 @@ public class CombatPrototype
 		System.out.print(" -> " + result.getPenetratingDamage());
 		System.out.println(" -> " + result.getWound().getLevel());
 
-		System.out.println("Status: " + defender.getWoundComponent().getHighestWoundLevel());
+		System.out.println("Status: " + defender.getWoundComponent().getWoundLevel());
 		
 		if(defender.getWoundComponent().isDead())
 		{
