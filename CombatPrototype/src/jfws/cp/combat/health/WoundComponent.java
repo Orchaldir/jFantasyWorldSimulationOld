@@ -1,5 +1,7 @@
 package jfws.cp.combat.health;
 
+import jfws.cp.combat.AttackResult;
+
 public class WoundComponent
 {
 	private Wound wound_ = new Wound(WoundLevel.NO_WOUND);
@@ -25,5 +27,10 @@ public class WoundComponent
 	public boolean isDead()
 	{
 		return !isAlive();
+	}
+	
+	public void applyDamage(AttackResult result)
+	{
+		addWound(result.getWound());
 	}
 }
