@@ -21,7 +21,7 @@ public class WoundSystem
 		
 		value += defender.getProtectionValue();
 		
-		int max_wound_level = defender.getWoundComponent().getWoundLevel().toInteger();
+		int max_wound_level = defender.getHealthComponent().getWoundLevel().toInteger();
 		
 		value -= penalty_per_level_ * max_wound_level;
 		
@@ -58,6 +58,6 @@ public class WoundSystem
 		result.setPenetratingDamage(penetrating_damage);
 		result.setWound(wound);
 		
-		defender.getWoundComponent().applyDamage(result);
+		defender.getHealthComponent().applyDamage(result);
 	}
 }

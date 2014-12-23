@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import jfws.cp.combat.health.HealthComponent;
 import jfws.cp.combat.health.WoundComponent;
 
 public class Character
@@ -15,7 +16,7 @@ public class Character
 	
 	private List<Protection> protection_list_ = new ArrayList<>();
 	
-	private WoundComponent wound_component_ = new WoundComponent();
+	private HealthComponent health_component_ = new WoundComponent();
 	
 	private Map<String,Attack> attacks_ = new HashMap<>();
 	private Map<String,Defense> defenses_ = new HashMap<>();
@@ -82,9 +83,9 @@ public class Character
 		return value;
 	}
 	
-	public WoundComponent getWoundComponent()
+	public HealthComponent getHealthComponent()
 	{
-		return wound_component_;
+		return health_component_;
 	}
 	
 	public void addAttack(Attack attack)

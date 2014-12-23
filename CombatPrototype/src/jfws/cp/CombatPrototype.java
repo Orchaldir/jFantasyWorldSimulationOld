@@ -109,7 +109,7 @@ public class CombatPrototype
 		{
 			Character current = initiative_.getCurrent();
 			
-			if(current.getWoundComponent().isDead())
+			if(current.getHealthComponent().isDead())
 			{
 				initiative_.remove(current);
 				continue;
@@ -262,9 +262,9 @@ public class CombatPrototype
 		System.out.print(" -> " + result.getPenetratingDamage());
 		System.out.println(" -> " + result.getWound().getLevel());
 
-		System.out.println("Status: " + defender.getWoundComponent().getWoundLevel());
+		System.out.println("Status: " + defender.getHealthComponent().getWoundLevel());
 		
-		if(defender.getWoundComponent().isDead())
+		if(defender.getHealthComponent().isDead())
 		{
 			onDeath(defender);
 		}
