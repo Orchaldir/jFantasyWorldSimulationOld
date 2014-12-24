@@ -55,17 +55,17 @@ public class CombatPrototype
 		Damage sword_damage = new Damage(new AttributeValue(strength, 2));
 		Damage bow_damage = new Damage(new ConstantValue(4));
 		
-		Range sword_range = new Range(1, null, 0);
-		Range bow_range = new Range(200, strength, 10);
+		Range sword_range = new Range(1);
+		Range bow_range = new Range(200, new AttributeValue(strength), 10);
 		
-		Value sword_value = new AttributeSkillCombo(agility, fighting, 0);
-		Value bow_value = new AttributeSkillCombo(perception, shooting, 0);
+		Value sword_value = new AttributeSkillCombo(agility, fighting);
+		Value bow_value = new AttributeSkillCombo(perception, shooting);
 		
 		Attack sword = new Attack("Sword", sword_value, sword_damage, sword_range);
 		Attack bow = new Attack("Bow", bow_value, bow_damage, bow_range);
 		
-		Value dodge_value = new AttributeSkillCombo(agility, athletics, 0);
-		Value parry_value = new AttributeSkillCombo(agility, fighting, 0);
+		Value dodge_value = new AttributeSkillCombo(agility, athletics);
+		Value parry_value = new AttributeSkillCombo(agility, fighting);
 		
 		Defense dodge = new Defense("Dodge", dodge_value);
 		Defense parry = new Defense("Parry", parry_value);

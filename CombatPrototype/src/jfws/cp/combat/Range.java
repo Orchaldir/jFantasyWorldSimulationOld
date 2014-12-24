@@ -1,24 +1,34 @@
 package jfws.cp.combat;
 
+import jfws.cp.combat.value.ConstantValue;
+import jfws.cp.combat.value.Value;
+
 public class Range
 {
 	private int base_;
-	private Attribute attribute_;
+	private Value value_;
 	private int multiplier_;
 	
-	public Range(int base, Attribute attribute, int multiplier)
+	public Range(int base, Value value, int multiplier)
 	{
 		base_ = base;
-		attribute_ = attribute;
+		value_ = value;
 		multiplier_ = multiplier;
+	}
+	
+	public Range(int base, Value value)
+	{
+		this(base, value, 0);
+	}
+	
+	public Range(int base)
+	{
+		this(base, new ConstantValue(0), 0);
 	}
 	
 	public int getRange(Character character)
 	{
-		int range = base_;
-		
-		if(attribute_ != null)
-			range += character.getAttributeLevel(attribute_) * multiplier_;
+		int range = base_ + value_.getValue(character) * multiplier_;
 		
 		return Math.max(range, 1);
 	}

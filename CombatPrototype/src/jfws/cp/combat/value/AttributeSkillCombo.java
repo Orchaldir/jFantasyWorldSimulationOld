@@ -22,6 +22,11 @@ public class AttributeSkillCombo implements Value
 		modifier_ = modifier;
 	}
 	
+	public AttributeSkillCombo(Attribute attribute, Skill skill)
+	{
+		this(attribute, skill, 0);
+	}
+	
 	@Override
 	public int getValue(Character character)
 	{

@@ -17,6 +17,11 @@ public class AttributeValue implements Value
 		modifier_ = modifier;
 	}
 	
+	public AttributeValue(Attribute attribute)
+	{
+		this(attribute, 0);
+	}
+	
 	@Override
 	public int getValue(Character character)
 	{
