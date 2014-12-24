@@ -27,4 +27,15 @@ public class AttributeSkillComboTest
 		assertEquals(7, combo.getValue(character_));
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAttributeIsNull()
+	{
+		AttributeSkillCombo combo = new AttributeSkillCombo(null, skill_, modifier_);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSkillIsNull()
+	{
+		AttributeSkillCombo combo = new AttributeSkillCombo(attribute_, null, modifier_);
+	}
 }

@@ -12,6 +12,11 @@ public class AttributeSkillCombo implements Value
 	
 	public AttributeSkillCombo(Attribute attribute, Skill skill, int modifier)
 	{
+		if(attribute == null)
+			throw new IllegalArgumentException("Attribute can not be null!");
+		else if(skill == null)
+			throw new IllegalArgumentException("Skill can not be null!");
+		
 		attribute_ = attribute;
 		skill_ = skill;
 		modifier_ = modifier;
