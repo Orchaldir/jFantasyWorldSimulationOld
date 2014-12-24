@@ -1,22 +1,19 @@
 package jfws.cp.combat;
 
+import jfws.cp.combat.value.Value;
+
 public class Damage
 {
-	private Attribute attribute_;
-	private int modifier_;
+	private Value value_;
 	
-	public Damage(Attribute attribute, int modifier)
+	public Damage(Value value)
 	{
-		attribute_ = attribute;
-		modifier_ = modifier;
+		value_ = value;
 	}
 	
 	public int getBaseDamage(Character attacker)
 	{
-		if(attribute_ != null)
-			return attacker.getAttributeLevel(attribute_) + modifier_;
-		else
-			return modifier_;
+		return value_.getValue(attacker);
 	}
 	
 	public int getDamage(Character attacker, int margin_of_success)

@@ -18,8 +18,7 @@ import jfws.cp.combat.health.WoundSystem;
 import jfws.cp.combat.initiative.TurnBasedInitiative;
 import jfws.cp.combat.map.Direction1d;
 import jfws.cp.combat.map.Map1d;
-import jfws.cp.combat.value.AttributeSkillCombo;
-import jfws.cp.combat.value.Value;
+import jfws.cp.combat.value.*;
 
 public class CombatPrototype
 {
@@ -53,8 +52,8 @@ public class CombatPrototype
 		
 		character_mgr_ = new CharacterMgr(attribute_mgr_);
 		
-		Damage sword_damage = new Damage(strength, 2);
-		Damage bow_damage = new Damage(null, 4);
+		Damage sword_damage = new Damage(new AttributeValue(strength, 2));
+		Damage bow_damage = new Damage(new ConstantValue(4));
 		
 		Range sword_range = new Range(1, null, 0);
 		Range bow_range = new Range(200, strength, 10);
