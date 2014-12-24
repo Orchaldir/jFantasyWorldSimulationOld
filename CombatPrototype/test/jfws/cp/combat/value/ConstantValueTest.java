@@ -4,10 +4,6 @@ import jfws.cp.combat.Character;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author alexander
- */
 public class ConstantValueTest
 {
 	static private Character character_ = new Character("Character0", 1);

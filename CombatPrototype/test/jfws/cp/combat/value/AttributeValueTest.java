@@ -6,10 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 
-/**
- *
- * @author alexander
- */
 public class AttributeValueTest
 {
 	static private Attribute attribute_ = new Attribute("Attribute0", 0);

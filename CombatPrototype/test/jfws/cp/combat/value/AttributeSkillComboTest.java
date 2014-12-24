@@ -1,5 +1,8 @@
-package jfws.cp.combat;
+package jfws.cp.combat.value;
 
+import jfws.cp.combat.Attribute;
+import jfws.cp.combat.Character;
+import jfws.cp.combat.Skill;
 import jfws.cp.combat.value.AttributeSkillCombo;
 import org.junit.BeforeClass;
 import org.junit.Test;

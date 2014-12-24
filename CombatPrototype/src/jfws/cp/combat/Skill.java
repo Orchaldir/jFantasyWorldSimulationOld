@@ -20,5 +20,4 @@ public class Skill
 	{
 		return default_level_;
 	}
-	
 }
