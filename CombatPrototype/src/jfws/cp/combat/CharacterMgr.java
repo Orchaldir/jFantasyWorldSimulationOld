@@ -22,7 +22,7 @@ public class CharacterMgr
 		else if(characters_.containsKey(name))
 			throw new IllegalArgumentException("Character \"" + name + "\" already exists!");
 		
-		Character character = new Character(name, attribute_mgr_);
+		Character character = new Character(name, attribute_mgr_.getNumberOfAttributes());
 		
 		characters_.put(name, character);
 		

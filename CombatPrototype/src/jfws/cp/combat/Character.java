@@ -21,13 +21,13 @@ public class Character
 	private Map<String,Attack> attacks_ = new HashMap<>();
 	private Map<String,Defense> defenses_ = new HashMap<>();
 	
-	public Character(String name, AttributeMgr attribute_mgr)
+	public Character(String name, int attributes)
 	{
 		name_ = name;
 		
-		attributes_ = new ArrayList<>(attribute_mgr.getNumberOfAttributes());
+		attributes_ = new ArrayList<>(attributes);
 		
-		for(int i = 0; i < attribute_mgr.getNumberOfAttributes(); i++)
+		for(int i = 0; i < attributes; i++)
 		{
 			attributes_.add(0);
 		}

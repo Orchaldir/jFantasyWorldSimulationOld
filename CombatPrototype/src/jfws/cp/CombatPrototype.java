@@ -18,6 +18,8 @@ import jfws.cp.combat.health.WoundSystem;
 import jfws.cp.combat.initiative.TurnBasedInitiative;
 import jfws.cp.combat.map.Direction1d;
 import jfws.cp.combat.map.Map1d;
+import jfws.cp.combat.value.AttributeSkillCombo;
+import jfws.cp.combat.value.Value;
 
 public class CombatPrototype
 {
@@ -57,11 +59,17 @@ public class CombatPrototype
 		Range sword_range = new Range(1, null, 0);
 		Range bow_range = new Range(200, strength, 10);
 		
-		Attack sword = new Attack("Sword", agility, fighting, 0, sword_damage, sword_range);
-		Attack bow = new Attack("Bow", perception, shooting, 0, bow_damage, bow_range);
+		Value sword_value = new AttributeSkillCombo(agility, fighting, 0);
+		Value bow_value = new AttributeSkillCombo(perception, shooting, 0);
 		
-		Defense dodge = new Defense("Dodge", agility, athletics, 0);
-		Defense parry = new Defense("Parry", agility, fighting, 0);
+		Attack sword = new Attack("Sword", sword_value, sword_damage, sword_range);
+		Attack bow = new Attack("Bow", bow_value, bow_damage, bow_range);
+		
+		Value dodge_value = new AttributeSkillCombo(agility, athletics, 0);
+		Value parry_value = new AttributeSkillCombo(agility, fighting, 0);
+		
+		Defense dodge = new Defense("Dodge", dodge_value);
+		Defense parry = new Defense("Parry", parry_value);
 		
 		Protection leather_armor = new Protection("Leather Armor", 2);
 		Protection mail_armor = new Protection("Mail Armor", 2);

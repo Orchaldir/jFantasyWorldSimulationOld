@@ -1,19 +1,17 @@
 package jfws.cp.combat;
 
+import jfws.cp.combat.value.Value;
+
 public class Defense
 {
 	private String name_;
 
-	private Attribute attribute_;
-	private Skill skill_;
-	private int modifier_;
+	private Value value_;
 	
-	public Defense(String name, Attribute attribute, Skill skill, int modifier)
+	public Defense(String name, Value value)
 	{
 		name_ = name;
-		attribute_ = attribute;
-		skill_ = skill;
-		modifier_ = modifier;
+		value_ = value;
 	}
 	
 	public String getName()
@@ -23,9 +21,6 @@ public class Defense
 	
 	public int getDefenseValue(Character defender)
 	{
-		int attribute_level = defender.getAttributeLevel(attribute_);
-		int skill_level = defender.getSkillLevel(skill_);
-		
-		return attribute_level + skill_level + modifier_;
+		return value_.getValue(defender);
 	}
 }

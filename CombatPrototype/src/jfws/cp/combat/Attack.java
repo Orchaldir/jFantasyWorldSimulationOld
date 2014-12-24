@@ -1,27 +1,22 @@
 package jfws.cp.combat;
 
+import jfws.cp.combat.value.Value;
+
 public class Attack
 {
 	private String name_;
 
-	private Attribute attribute_;
-	private Skill skill_;
-	private int modifier_;
+	private Value value_;
 	
 	private Damage damage_;
 	
 	private Range range_;
 	
-	public Attack(String name, Attribute attribute, Skill skill, int modifier, Damage damage, Range range)
+	public Attack(String name, Value value, Damage damage, Range range)
 	{
 		name_ = name;
-		
-		attribute_ = attribute;
-		skill_ = skill;
-		modifier_ = modifier;
-		
+		value_ = value;
 		damage_ = damage;
-		
 		range_ = range;
 	}
 	
@@ -42,10 +37,7 @@ public class Attack
 	
 	public int getAttackValue(Character attacker)
 	{
-		int attribute_level = attacker.getAttributeLevel(attribute_);
-		int skill_level = attacker.getSkillLevel(skill_);
-		
-		return attribute_level + skill_level + modifier_;
+		return value_.getValue(attacker);
 	}
 	
 	public static int handle(TestMgr test_mgr, Character attacker, Attack attack, Character defender, Defense defense)
