@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class SkillMgrTest
 {
 	static private String name_ = "Skill";
-	static private int level_ = 0;
+	static private int level_ = 9;
 	static private SkillMgr skill_mgr_;
 	
 	@Before
