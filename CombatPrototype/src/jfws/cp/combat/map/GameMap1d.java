@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import jfws.cp.combat.Character;
 
-public class Map1d
+public class GameMap1d implements GameMap
 {
 	private Map<Character,Pose1d> poses_ = new HashMap<>();
 	private Character[] cells_;
 	
-	public Map1d(int size)
+	public GameMap1d(int size)
 	{
 		cells_ = new Character[size];
 	}
@@ -37,6 +37,7 @@ public class Map1d
 		return Math.abs(b - a);
 	}
 	
+	@Override
 	public int getDistance(Character a, Character b)
 	{
 		Pose1d pose_a = poses_.get(a);

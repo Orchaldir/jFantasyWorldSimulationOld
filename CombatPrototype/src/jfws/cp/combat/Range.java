@@ -1,5 +1,6 @@
 package jfws.cp.combat;
 
+import jfws.cp.combat.map.GameMap;
 import jfws.cp.combat.value.ConstantValue;
 import jfws.cp.combat.value.Value;
 
@@ -34,5 +35,13 @@ public class Range
 		int range = base_ + value_.getValue(character) * multiplier_;
 		
 		return Math.max(range, 1);
+	}
+	
+	public boolean isInside(Character attacker, Character defender, GameMap map)
+	{
+		int range = map.getDistance(attacker, defender);
+		int max_range = getDistance(attacker);
+		
+		return range <= max_range;
 	}
 }

@@ -17,7 +17,7 @@ import jfws.cp.combat.TestMgr;
 import jfws.cp.combat.health.WoundSystem;
 import jfws.cp.combat.initiative.TurnBasedInitiative;
 import jfws.cp.combat.map.Direction1d;
-import jfws.cp.combat.map.Map1d;
+import jfws.cp.combat.map.GameMap1d;
 import jfws.cp.combat.value.*;
 
 public class CombatPrototype
@@ -28,7 +28,7 @@ public class CombatPrototype
 	public static WoundSystem wound_system_;
 	public static CharacterMgr character_mgr_;
 	public static TurnBasedInitiative initiative_ = new TurnBasedInitiative();
-	public static Map1d map_;
+	public static GameMap1d map_;
 	
 	public static Scanner input_ = new Scanner(System.in);
 	
@@ -102,7 +102,7 @@ public class CombatPrototype
 		c.addAttack(bow);
 		c.addDefense(dodge);
 		
-		map_ = new Map1d(10);
+		map_ = new GameMap1d(10);
 		map_.set(a, 1);
 		map_.set(b, 2);
 		map_.set(c, 8);
@@ -184,15 +184,15 @@ public class CombatPrototype
 			return false;
 		}
 
-		if(!canAttack(attacker, attack, defender))
-			return false;
-
 		Defense defense = processDefense(defender, attack);
 
 		if(defense == null)
 			return false;
 		
 		AttackResult result = new AttackResult(attacker, attack, defender, defense);
+		
+		if(!attack.isPossible(result, map_))
+			return false;
 		
 		attack(result);
 		
@@ -263,21 +263,6 @@ public class CombatPrototype
 
 		map_.render();
 
-		return true;
-	}
-	
-	public static boolean canAttack(Character attacker, Attack attack, Character defender)
-	{
-		int range = map_.getDistance(attacker, defender);
-		int max_range = attack.getRange().getDistance(attacker);
-		
-		if(range > max_range)
-		{
-			System.err.println(defender.getName()+ " is out of range!");
-			
-			return false;
-		}
-		
 		return true;
 	}
 	

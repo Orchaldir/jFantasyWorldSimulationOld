@@ -1,5 +1,6 @@
 package jfws.cp.combat;
 
+import jfws.cp.combat.map.GameMap;
 import jfws.cp.combat.value.Value;
 
 public class Attack
@@ -38,6 +39,17 @@ public class Attack
 	public int getAttackValue(Character attacker)
 	{
 		return value_.getValue(attacker);
+	}
+	
+	public boolean isPossible(AttackResult result, GameMap map)
+	{
+		if(!range_.isInside(result.getAttacker(), result.getDefender(), map))
+		{
+			System.err.println(result.getDefender().getName()+ " is out of range!");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public static int handle(TestMgr test_mgr, Character attacker, Attack attack, Character defender, Defense defense)
