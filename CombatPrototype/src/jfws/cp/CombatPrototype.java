@@ -265,7 +265,7 @@ public class CombatPrototype
 	public static boolean canAttack(Character attacker, Attack attack, Character defender)
 	{
 		int range = map_.getDistance(attacker, defender);
-		int max_range = attack.getRange().getRange(attacker);
+		int max_range = attack.getRange().getDistance(attacker);
 		
 		if(range > max_range)
 		{
@@ -291,7 +291,7 @@ public class CombatPrototype
 		if(!result.hasHit())
 			return;
 
-		Damage.handle(result);
+		attack.getDamage().handle(result);
 
 		wound_system_.handle(result);
 

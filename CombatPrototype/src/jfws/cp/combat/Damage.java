@@ -8,6 +8,9 @@ public class Damage
 	
 	public Damage(Value value)
 	{
+		if(value == null)
+			throw new IllegalArgumentException("Value can not be null!");
+		
 		value_ = value;
 	}
 	
@@ -21,10 +24,9 @@ public class Damage
 		return getBaseDamage(attacker) + margin_of_success;
 	}
 	
-	public static void handle(AttackResult result)
+	public void handle(AttackResult result)
 	{
-		Damage damage = result.getAttack().getDamage();
-		int damage_value = damage.getDamage(result.getAttacker(), result.getMarginOfSuccess());
+		int damage_value = getDamage(result.getAttacker(), result.getMarginOfSuccess());
 		
 		result.setDamage(damage_value);
 	}

@@ -11,6 +11,9 @@ public class Range
 	
 	public Range(int base, Value value, int multiplier)
 	{
+		if(value == null)
+			throw new IllegalArgumentException("Value can not be null!");
+		
 		base_ = base;
 		value_ = value;
 		multiplier_ = multiplier;
@@ -26,7 +29,7 @@ public class Range
 		this(base, new ConstantValue(0), 0);
 	}
 	
-	public int getRange(Character character)
+	public int getDistance(Character character)
 	{
 		int range = base_ + value_.getValue(character) * multiplier_;
 		
