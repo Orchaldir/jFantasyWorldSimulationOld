@@ -10,7 +10,7 @@ public class AttackResult
 	private Character defender_;
 	private Defense defense_;
 	
-	private int margin_of_success_;
+	private int margin_of_success_ = -1;
 	
 	private int damage_;
 	private int penetrating_damage_;
@@ -89,5 +89,29 @@ public class AttackResult
 	public void setWound(Wound wound)
 	{
 		wound_ = wound;
+	}
+	
+	public void print()
+	{
+		System.out.println(attacker_.getName()+ "'s " +
+				attack_.getName() + " VS " +
+				defender_.getName()+ "'s " +
+				defense_.getName());
+
+		if(hasHit())
+		{
+			System.out.println("Attack: " + margin_of_success_ + " -> Hit");
+		}
+		else
+		{
+			System.out.println("Attack: " + margin_of_success_ + " -> Miss");
+			return;
+		}
+
+		System.out.print("Damage: " + damage_);
+		System.out.print(" -> " + penetrating_damage_);
+		System.out.println(" -> " + wound_.getLevel());
+
+		System.out.println("Status: " + defender_.getHealthComponent().getWoundLevel());
 	}
 }

@@ -151,7 +151,7 @@ public class CombatPrototype
 		return false;
 	}
 	
-	public static boolean processAttack(Character character, String[] parts)
+	public static boolean processAttack(Character attacker, String[] parts)
 	{
 		if(parts.length != 3)
 		{
@@ -161,38 +161,42 @@ public class CombatPrototype
 
 		String target_name = parts[1];
 
-		if(character.getName().equals(target_name))
+		if(attacker.getName().equals(target_name))
 		{
 			System.err.println("Character can't attack itself!");
 			return false;
 		}
 
-		Character target = character_mgr_.get(target_name);
+		Character defender = character_mgr_.get(target_name);
 
-		if(target == null)
+		if(defender == null)
 		{
 			System.err.println("Character \"" + target_name + "\" does not exist!");
 			return false;
 		}
 
 		String attack_name = parts[2];
-		Attack attack = character.getAttack(attack_name);
+		Attack attack = attacker.getAttack(attack_name);
 
 		if(attack == null)
 		{
-			System.err.println(character.getName() + " does not have Attack \"" + attack_name + "\"!");
+			System.err.println(attacker.getName() + " does not have Attack \"" + attack_name + "\"!");
 			return false;
 		}
 
-		if(!canAttack(character, attack, target))
+		if(!canAttack(attacker, attack, defender))
 			return false;
 
-		Defense defense = processDefense(target, attack);
+		Defense defense = processDefense(defender, attack);
 
 		if(defense == null)
 			return false;
 		
-		attack(character, attack, target, defense);
+		AttackResult result = new AttackResult(attacker, attack, defender, defense);
+		
+		attack(result);
+		
+		result.print();
 
 		return true;
 	}
@@ -277,33 +281,25 @@ public class CombatPrototype
 		return true;
 	}
 	
-	public static void attack(Character attacker, Attack attack, Character defender, Defense defense)
+	public static void attack(AttackResult result)
 	{
-		System.out.println(attacker.getName()+ "'s " + attack.getName() + " VS "
-				+ defender.getName()+ "'s " + defense.getName());
-		
-		AttackResult result = new AttackResult(attacker, attack, defender, defense);
-		
 		Attack.handle(test_mgr_, result);
-
-		System.out.println("Attack: " + result.getMarginOfSuccess() + " -> " + (result.hasHit() ? "Hit" : "Miss"));
 
 		if(!result.hasHit())
 			return;
 
-		attack.getDamage().handle(result);
+		result.getAttack().getDamage().handle(result);
 
 		wound_system_.handle(result);
-
-		System.out.print("Damage: " + result.getDamage());
-		System.out.print(" -> " + result.getPenetratingDamage());
-		System.out.println(" -> " + result.getWound().getLevel());
-
-		System.out.println("Status: " + defender.getHealthComponent().getWoundLevel());
 		
-		if(defender.getHealthComponent().isDead())
+		checkDeath(result.getDefender());
+	}
+	
+	public static void checkDeath(Character character)
+	{
+		if(character.getHealthComponent().isDead())
 		{
-			onDeath(defender);
+			onDeath(character);
 		}
 	}
 	
