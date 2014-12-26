@@ -116,12 +116,6 @@ public class CombatPrototype
 		{
 			Character current = initiative_.getCurrent();
 			
-			if(current.getHealthComponent().isDead())
-			{
-				initiative_.remove(current);
-				continue;
-			}
-			
 			if(!processInput(current))
 				continue;
 			

@@ -36,9 +36,9 @@ public class Attack
 		return range_;
 	}
 	
-	public int getAttackValue(Character attacker)
+	public int getAttackValue(Character character)
 	{
-		return value_.getValue(attacker);
+		return value_.getValue(character);
 	}
 	
 	public boolean isPossible(AttackResult result, GameMap map)
