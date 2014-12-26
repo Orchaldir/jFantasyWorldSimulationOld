@@ -6,34 +6,34 @@ import jfws.cp.combat.Character;
 import jfws.cp.combat.Range;
 import jfws.cp.combat.map.GameMap;
 
-public class Strike implements TargetSelection
+public class Projectile implements TargetSelection
 {
 	private Range range_;
 	private boolean can_target_user_;
 	
-	public Strike(Range range, boolean can_target_user)
+	public Projectile(Range range, boolean can_target_user)
 	{
 		range_ = range;
 		can_target_user_ = can_target_user;
 	}
 	
-	public Strike(Range range)
+	public Projectile(Range range)
 	{
 		this(range, false);
 	}
 	
-	public Strike(int range, boolean can_target_user)
+	public Projectile(int range, boolean can_target_user)
 	{
 		this(new Range(range), can_target_user);
 	}
 	
-	public Strike(int range)
+	public Projectile(int range)
 	{
 		this(new Range(range), false);
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user)
+	public List<Character> getTargets(jfws.cp.combat.Character user)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
@@ -44,7 +44,7 @@ public class Strike implements TargetSelection
 	}
 
 	@Override
-	public List<Character> getTargets(Character user, Character target, GameMap map)
+	public List<Character> getTargets(jfws.cp.combat.Character user, jfws.cp.combat.Character target, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
@@ -60,5 +60,4 @@ public class Strike implements TargetSelection
 		
 		return targets;
 	}
-
 }

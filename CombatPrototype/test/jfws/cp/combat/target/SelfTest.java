@@ -1,4 +1,3 @@
-
 package jfws.cp.combat.target;
 
 import java.util.List;
