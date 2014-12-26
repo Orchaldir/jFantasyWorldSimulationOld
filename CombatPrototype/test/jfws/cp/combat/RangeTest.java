@@ -10,17 +10,17 @@ import org.junit.Before;
 
 public class RangeTest
 {
-	static private Character character0_ = new Character("Character0", 1);
-	static private Character character1_ = new Character("Character1", 1);
+	private Character character0_ = new Character("Character0", 1);
+	private Character character1_ = new Character("Character1", 1);
 	
-	static private int base_ = 100;
-	static private Value value_ = new ConstantValue(2);
-	static private int multiplier_ = 10;
-	static private int distance_ = 120;
-	static private Range range_;
+	private int base_ = 100;
+	private Value value_ = new ConstantValue(2);
+	private int multiplier_ = 10;
+	private int distance_ = 120;
+	private Range range_;
 	
-	static private MockMap inside_ = new MockMap(distance_ - 10);
-	static private MockMap outside_ = new MockMap(distance_ + 10);
+	private MockMap inside_ = new MockMap(distance_ - 10);
+	private MockMap outside_ = new MockMap(distance_ + 10);
 	
 	@Before
 	public void setUp()
