@@ -33,7 +33,24 @@ public class Strike implements TargetSelection
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user)
+	public boolean canTarget(Character user, GameMap map)
+	{
+		return can_target_user_;
+	}
+
+	@Override
+	public boolean canTarget(Character user, Character target, GameMap map)
+	{
+		if(user == target)
+		{
+			return can_target_user_;
+		}
+		
+		return range_.isInside(user, target, map);
+	}
+	
+	@Override
+	public List<Character> getTargets(Character user, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
@@ -48,15 +65,8 @@ public class Strike implements TargetSelection
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
-		if(user == target)
-		{
-			if(can_target_user_)
-				targets.add(user);
-		}
-		else if(range_.isInside(user, target, map))
-		{
+		if(canTarget(user, target, map))
 			targets.add(user);
-		}
 		
 		return targets;
 	}

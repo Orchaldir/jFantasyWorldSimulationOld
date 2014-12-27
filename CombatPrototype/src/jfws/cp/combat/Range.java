@@ -37,10 +37,10 @@ public class Range
 		return Math.max(range, 1);
 	}
 	
-	public boolean isInside(Character attacker, Character defender, GameMap map)
+	public boolean isInside(Character user, Character target, GameMap map)
 	{
-		int range = map.getDistance(attacker, defender);
-		int max_range = getDistance(attacker);
+		int range = map.getDistance(user, target);
+		int max_range = getDistance(user);
 		
 		return range <= max_range;
 	}

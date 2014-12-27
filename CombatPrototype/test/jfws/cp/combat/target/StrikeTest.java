@@ -16,9 +16,45 @@ public class StrikeTest
 	private Strike strike_self_ = new Strike(4, true);
 	
 	@Test
+	public void testCanTargetWithUser()
+	{
+		assertTrue(strike_self_.canTarget(character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithUserNotAllowed()
+	{
+		assertFalse(strike_.canTarget(character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithUserAsTarget()
+	{
+		assertTrue(strike_self_.canTarget(character0_, character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithUserAsTargetNotAllowed()
+	{
+		assertFalse(strike_.canTarget(character0_, character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithTarget()
+	{
+		assertTrue(strike_self_.canTarget(character0_, character1_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithTargetTooFar()
+	{
+		assertFalse(strike_self_.canTarget(character0_, character1_, outside_));
+	}
+	
+	@Test
 	public void testGetTargetsWithUser()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_);
+		List<Character> targets = strike_self_.getTargets(character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -28,7 +64,7 @@ public class StrikeTest
 	@Test
 	public void testGetTargetsWithUserNotAllowed()
 	{
-		List<Character> targets = strike_.getTargets(character0_);
+		List<Character> targets = strike_.getTargets(character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());

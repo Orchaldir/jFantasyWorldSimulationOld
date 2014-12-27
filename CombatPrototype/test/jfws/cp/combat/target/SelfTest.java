@@ -15,9 +15,27 @@ public class SelfTest
 	private Self self_ = new Self();
 	
 	@Test
+	public void testCanTargetWithUser()
+	{
+		assertTrue(self_.canTarget(character0_, map_));
+	}
+
+	@Test
+	public void testCanTargetWithUserAsTarget()
+	{
+		assertTrue(self_.canTarget(character0_, character0_, map_));
+	}
+	
+	@Test
+	public void testCanTargetWithInvalidTarget()
+	{
+		assertFalse(self_.canTarget(character0_, character1_, map_));
+	}
+	
+	@Test
 	public void testGetTargetsWithUser()
 	{
-		List<Character> targets = self_.getTargets(character0_);
+		List<Character> targets = self_.getTargets(character0_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());

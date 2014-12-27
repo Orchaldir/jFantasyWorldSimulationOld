@@ -16,9 +16,45 @@ public class ProjectileTest
 	private Projectile projectile_self_ = new Projectile(4, true);
 	
 	@Test
+	public void testCanTargetWithUser()
+	{
+		assertTrue(projectile_self_.canTarget(character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithUserNotAllowed()
+	{
+		assertFalse(projectile_.canTarget(character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithUserAsTarget()
+	{
+		assertTrue(projectile_self_.canTarget(character0_, character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithUserAsTargetNotAllowed()
+	{
+		assertFalse(projectile_.canTarget(character0_, character0_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithTarget()
+	{
+		assertTrue(projectile_self_.canTarget(character0_, character1_, inside_));
+	}
+	
+	@Test
+	public void testCanTargetWithTargetTooFar()
+	{
+		assertFalse(projectile_self_.canTarget(character0_, character1_, outside_));
+	}
+	
+	@Test
 	public void testGetTargetsWithUser()
 	{
-		List<Character> targets = projectile_self_.getTargets(character0_);
+		List<Character> targets = projectile_self_.getTargets(character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -28,7 +64,7 @@ public class ProjectileTest
 	@Test
 	public void testGetTargetsWithUserNotAllowed()
 	{
-		List<Character> targets = projectile_.getTargets(character0_);
+		List<Character> targets = projectile_.getTargets(character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());

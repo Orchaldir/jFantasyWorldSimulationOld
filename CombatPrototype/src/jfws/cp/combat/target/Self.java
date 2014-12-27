@@ -8,7 +8,19 @@ import jfws.cp.combat.map.GameMap;
 public class Self implements TargetSelection
 {
 	@Override
-	public List<Character> getTargets(Character user)
+	public boolean canTarget(Character user, GameMap map)
+	{
+		return true;
+	}
+
+	@Override
+	public boolean canTarget(Character user, Character target, GameMap map)
+	{
+		return user == target;
+	}
+	
+	@Override
+	public List<Character> getTargets(Character user, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
