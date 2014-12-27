@@ -2,7 +2,6 @@ package jfws.cp.combat.target;
 
 import java.util.List;
 import jfws.cp.combat.Character;
-import jfws.cp.combat.map.GameMap;
 import jfws.cp.combat.map.MockMap;
 import org.junit.Test;
 import static org.junit.Assert.*;

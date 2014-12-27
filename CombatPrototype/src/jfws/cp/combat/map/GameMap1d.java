@@ -1,12 +1,13 @@
 package jfws.cp.combat.map;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import jfws.cp.combat.Character;
 
 public class GameMap1d implements GameMap
 {
-	private Map<Character,Pose1d> poses_ = new HashMap<>();
+	private Map<Character,Pose> poses_ = new HashMap<>();
 	private Character[] cells_;
 	
 	public GameMap1d(int size)
@@ -32,6 +33,12 @@ public class GameMap1d implements GameMap
 			return getRight(index);
 	}
 	
+	@Override
+	public Collection<Character> getCharacters()
+	{
+		return poses_.keySet();
+	}
+	
 	public int getDistance(int a, int b)
 	{
 		return Math.abs(b - a);
@@ -40,10 +47,30 @@ public class GameMap1d implements GameMap
 	@Override
 	public int getDistance(Character a, Character b)
 	{
-		Pose1d pose_a = poses_.get(a);
-		Pose1d pose_b = poses_.get(b);
+		Pose pose_a = poses_.get(a);
+		Pose pose_b = poses_.get(b);
 		
 		return getDistance(pose_a.index_, pose_b.index_);
+	}
+	
+	@Override
+	public int getDistance(Character a, Pose b)
+	{
+		Pose pose_a = poses_.get(a);
+		
+		return getDistance(pose_a.index_, b.index_);
+	}
+	
+	@Override
+	public int getDistance(Pose a, Pose b)
+	{
+		return getDistance(a.index_, b.index_);
+	}
+	
+	@Override
+	public Pose getPose(Character character)
+	{
+		return poses_.get(character);
 	}
 	
 	public boolean isInside(int index)
@@ -69,11 +96,11 @@ public class GameMap1d implements GameMap
 		if(!isFree(index))
 			return false;
 		
-		Pose1d pose = poses_.get(character);
+		Pose pose = poses_.get(character);
 		
 		if(pose == null)
 		{
-			pose = new Pose1d(index);
+			pose = new Pose(index);
 			poses_.put(character, pose);
 		}
 		else
@@ -94,7 +121,7 @@ public class GameMap1d implements GameMap
 			throw new IllegalArgumentException("Character cannot be null!");
 		}
 		
-		Pose1d pose = poses_.get(character);
+		Pose pose = poses_.get(character);
 		
 		if(pose == null)
 		{

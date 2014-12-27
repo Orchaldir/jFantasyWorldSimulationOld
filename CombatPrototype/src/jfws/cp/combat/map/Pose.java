@@ -1,10 +1,10 @@
 package jfws.cp.combat.map;
 
-public class Pose1d
+public class Pose
 {
 	public int index_;
 	
-	public Pose1d(int index)
+	public Pose(int index)
 	{
 		index_ = index;
 	}

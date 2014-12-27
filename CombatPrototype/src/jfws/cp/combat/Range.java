@@ -1,6 +1,7 @@
 package jfws.cp.combat;
 
 import jfws.cp.combat.map.GameMap;
+import jfws.cp.combat.map.Pose;
 import jfws.cp.combat.value.ConstantValue;
 import jfws.cp.combat.value.Value;
 
@@ -30,7 +31,7 @@ public class Range
 		this(base, new ConstantValue(0), 0);
 	}
 	
-	public int getDistance(Character character)
+	public int getMaxRange(Character character)
 	{
 		int range = base_ + value_.getValue(character) * multiplier_;
 		
@@ -40,7 +41,20 @@ public class Range
 	public boolean isInside(Character user, Character target, GameMap map)
 	{
 		int range = map.getDistance(user, target);
-		int max_range = getDistance(user);
+		
+		return isInside(user, range);
+	}
+	
+	public boolean isInside(Character user, Pose center, Character target, GameMap map)
+	{
+		int range = map.getDistance(target, center);
+		
+		return isInside(user, range);
+	}
+	
+	public boolean isInside(Character user, int range)
+	{
+		int max_range = getMaxRange(user);
 		
 		return range <= max_range;
 	}

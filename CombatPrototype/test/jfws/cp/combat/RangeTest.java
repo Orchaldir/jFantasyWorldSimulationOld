@@ -35,9 +35,9 @@ public class RangeTest
 	}
 	
 	@Test
-	public void testGetDistance()
+	public void testGetMaxRange()
 	{
-		assertEquals(distance_, range_.getDistance(character0_));
+		assertEquals(distance_, range_.getMaxRange(character0_));
 	}
 	
 	@Test
