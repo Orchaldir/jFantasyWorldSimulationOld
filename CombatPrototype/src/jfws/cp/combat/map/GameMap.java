@@ -5,6 +5,7 @@ import jfws.cp.combat.Character;
 
 public interface GameMap
 {
+	Character getCharacter(Pose pose);
 	Collection<Character> getCharacters();
 	
 	int getDistance(Character a, Character b);

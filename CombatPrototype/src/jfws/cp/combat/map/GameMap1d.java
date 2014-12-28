@@ -34,6 +34,15 @@ public class GameMap1d implements GameMap
 	}
 	
 	@Override
+	public Character getCharacter(Pose pose)
+	{
+		if(!isInside(pose.index_))
+			throw new IllegalArgumentException("Pose is outside map!");
+		
+		return cells_[pose.index_];
+	}
+	
+	@Override
 	public Collection<Character> getCharacters()
 	{
 		return poses_.keySet();

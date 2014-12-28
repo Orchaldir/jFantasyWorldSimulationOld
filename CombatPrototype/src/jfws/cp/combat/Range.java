@@ -45,6 +45,13 @@ public class Range
 		return isInside(user, range);
 	}
 	
+	public boolean isInside(Character user, Pose pose, GameMap map)
+	{
+		int range = map.getDistance(user, pose);
+		
+		return isInside(user, range);
+	}
+	
 	public boolean isInside(Character user, Pose center, Character target, GameMap map)
 	{
 		int range = map.getDistance(target, center);
@@ -52,7 +59,7 @@ public class Range
 		return isInside(user, range);
 	}
 	
-	public boolean isInside(Character user, int range)
+	private boolean isInside(Character user, int range)
 	{
 		int max_range = getMaxRange(user);
 		

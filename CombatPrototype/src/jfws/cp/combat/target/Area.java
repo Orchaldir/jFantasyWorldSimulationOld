@@ -1,6 +1,7 @@
 package jfws.cp.combat.target;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import jfws.cp.combat.Character;
 import jfws.cp.combat.Range;
@@ -38,6 +39,12 @@ public class Area implements TargetSelection
 	}
 	
 	@Override
+	public boolean canTarget(Character user, Pose pose, GameMap map)
+	{
+		return center_selection_.canTarget(user, pose, map);
+	}
+	
+	@Override
 	public List<Character> getTargets(Character user, GameMap map)
 	{
 		return getTargetsAroundCenters(user, map, center_selection_.getTargets(user, map));
@@ -49,6 +56,15 @@ public class Area implements TargetSelection
 		return getTargetsAroundCenters(user, map, center_selection_.getTargets(user, target, map));
 	}
 	
+	@Override
+	public List<Character> getTargets(Character user, Pose pose, GameMap map)
+	{
+		if(!center_selection_.canTarget(user, pose, map))
+			return Collections.<Character>emptyList();
+		
+		return getTargetsAroundCenter(user, map, pose);
+	}
+	
 	private List<Character> getTargetsAroundCenters(Character user, GameMap map, List<Character> centers)
 	{
 		if(centers.size() == 1)
@@ -58,7 +74,7 @@ public class Area implements TargetSelection
 			return getTargetsAroundCenter(user, map, center);
 		}
 		
-		return new ArrayList<>(1);
+		return Collections.<Character>emptyList();
 	}
 	
 	private List<Character> getTargetsAroundCenter(Character user, GameMap map, Pose center)

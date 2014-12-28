@@ -1,10 +1,12 @@
 package jfws.cp.combat.target;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import jfws.cp.combat.Character;
 import jfws.cp.combat.Range;
 import jfws.cp.combat.map.GameMap;
+import jfws.cp.combat.map.Pose;
 
 public class Strike implements TargetSelection
 {
@@ -50,6 +52,12 @@ public class Strike implements TargetSelection
 	}
 	
 	@Override
+	public boolean canTarget(Character user, Pose pose, GameMap map)
+	{
+		return range_.isInside(user, pose, map);
+	}
+	
+	@Override
 	public List<Character> getTargets(Character user, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
@@ -71,4 +79,19 @@ public class Strike implements TargetSelection
 		return targets;
 	}
 
+	@Override
+	public List<Character> getTargets(Character user, Pose pose, GameMap map)
+	{
+		Character possible_target = map.getCharacter(pose);
+		
+		if(possible_target == null)
+			return Collections.<Character>emptyList();
+		
+		List<Character> targets = new ArrayList<>(1);
+		
+		if(canTarget(user, possible_target, map))
+			targets.add(user);
+		
+		return targets;
+	}
 }

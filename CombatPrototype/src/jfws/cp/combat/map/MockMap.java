@@ -7,10 +7,23 @@ import jfws.cp.combat.Character;
 public class MockMap implements GameMap
 {
 	private int distance_;
+	private Character character_;
+	
+	public MockMap(int distance, Character character)
+	{
+		distance_ = distance;
+		character_ = character;
+	}
 	
 	public MockMap(int distance)
 	{
 		distance_ = distance;
+	}
+	
+	@Override
+	public Character getCharacter(Pose pose)
+	{
+		return character_;
 	}
 	
 	@Override

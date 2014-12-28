@@ -4,6 +4,7 @@ package jfws.cp.combat.target;
 import java.util.List;
 import jfws.cp.combat.Character;
 import jfws.cp.combat.map.GameMap1d;
+import jfws.cp.combat.map.Pose;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.junit.Before;
 public class AreaTest
 {
 	private GameMap1d map_ = new GameMap1d(10);
+	private Pose pose_ = new Pose(1);
 	private Character character0_ = new Character("Character0", 1);
 	private Character character1_ = new Character("Character1", 1);
 	private Character character2_ = new Character("Character2", 1);
@@ -47,6 +49,12 @@ public class AreaTest
 	}
 	
 	@Test
+	public void testCanTargetWithPose()
+	{
+		assertFalse(strike_self_.canTarget(character0_, pose_, map_));
+	}
+	
+	@Test
 	public void testGetTargetsWithUser()
 	{
 		List<Character> targets = strike_self_.getTargets(character0_, map_);
@@ -72,5 +80,14 @@ public class AreaTest
 		assertTrue(targets.contains(character1_));
 		assertTrue(targets.contains(character2_));
 		assertFalse(targets.contains(character3_));
+	}
+	
+	@Test
+	public void testGetTargetsWithPose()
+	{
+		List<Character> targets = strike_self_.getTargets(character0_, pose_, map_);
+		
+		assertNotNull(targets);
+		assertEquals(0, targets.size());
 	}
 }
