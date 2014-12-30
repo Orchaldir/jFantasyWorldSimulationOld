@@ -14,9 +14,10 @@ import jfws.cp.combat.Range;
 import jfws.cp.combat.Skill;
 import jfws.cp.combat.SkillMgr;
 import jfws.cp.combat.TestMgr;
+import jfws.cp.combat.action.Move;
 import jfws.cp.combat.health.WoundSystem;
 import jfws.cp.combat.initiative.TurnBasedInitiative;
-import jfws.cp.combat.map.Direction1d;
+import jfws.cp.combat.map.Direction;
 import jfws.cp.combat.map.GameMap1d;
 import jfws.cp.combat.value.*;
 
@@ -29,6 +30,8 @@ public class CombatPrototype
 	public static CharacterMgr character_mgr_;
 	public static TurnBasedInitiative initiative_ = new TurnBasedInitiative();
 	public static GameMap1d map_;
+	public static Move move_left_ = new Move("Move Left", Direction.WEST);
+	public static Move move_right_ = new Move("Move Right", Direction.EAST);
 	
 	public static Scanner input_ = new Scanner(System.in);
 	
@@ -103,10 +106,10 @@ public class CombatPrototype
 		c.addDefense(dodge);
 		
 		map_ = new GameMap1d(10);
-		map_.set(a, 1);
-		map_.set(b, 2);
-		map_.set(c, 8);
-		map_.render();
+		map_.setCharacter(a, 1);
+		map_.setCharacter(b, 2);
+		map_.setCharacter(c, 8);
+		map_.print();
 		
 		initiative_.add(a);
 		initiative_.add(b);
@@ -233,15 +236,15 @@ public class CombatPrototype
 		}
 
 		String dir_name_ = parts[1];
-		Direction1d dir;
+		Move move;
 
 		if(dir_name_.equals("left"))
 		{
-			dir = Direction1d.LEFT;
+			move = move_left_;
 		}
 		else if(dir_name_.equals("right"))
 		{
-			dir = Direction1d.RIGHT;
+			move = move_right_;
 		}
 		else
 		{
@@ -249,13 +252,15 @@ public class CombatPrototype
 			return false;
 		}
 
-		if(!map_.move(character, dir))
+		if(!move.isPossible(character, map_))
 		{
 			System.err.println("Could not move!");
 			return false;
 		}
+		
+		move.handle(character, map_);
 
-		map_.render();
+		map_.print();
 
 		return true;
 	}
@@ -286,6 +291,6 @@ public class CombatPrototype
 	{
 		System.out.println(character.getName() + " dies!");
 		initiative_.remove(character);
-		map_.remove(character);
+		map_.removeCharacter(character);
 	}
 }

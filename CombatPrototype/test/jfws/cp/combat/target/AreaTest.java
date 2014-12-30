@@ -24,10 +24,10 @@ public class AreaTest
 	@Before
 	public void setUpClass()
 	{
-		map_.set(character0_, 6);
-		map_.set(character1_, 5);
-		map_.set(character2_, 7);
-		map_.set(character3_, 0);
+		map_.setCharacter(character0_, 6);
+		map_.setCharacter(character1_, 5);
+		map_.setCharacter(character2_, 7);
+		map_.setCharacter(character3_, 0);
 	}
 
 	@Test

@@ -21,16 +21,46 @@ public class MockMap implements GameMap
 	}
 	
 	@Override
+	public Collection<Character> getCharacters()
+	{
+		return new ArrayList<>(1);
+	}
+	
+	// characters
+	
+	@Override
 	public Character getCharacter(Pose pose)
 	{
 		return character_;
 	}
 	
 	@Override
-	public Collection<Character> getCharacters()
+	public boolean setCharacter(Character character, int index)
 	{
-		return new ArrayList<>(1);
+		return false;
 	}
+	
+	@Override
+	public void removeCharacter(Character character)
+	{
+		
+	}
+	
+	// checks
+	
+	@Override
+	public boolean isValid(int index)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFree(int index)
+	{
+		return false;
+	}
+	
+	// distance
 	
 	@Override
 	public int getDistance(Character a, Character b)
@@ -49,6 +79,16 @@ public class MockMap implements GameMap
 	{
 		return distance_;
 	}
+	
+	// index
+	
+	@Override
+	public int getNeighborIndex(int index, Direction dir)
+	{
+		return 0;
+	}
+	
+	// pose
 	
 	@Override
 	public Pose getPose(Character character)

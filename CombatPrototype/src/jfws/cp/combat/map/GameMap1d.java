@@ -15,6 +15,86 @@ public class GameMap1d implements GameMap
 		cells_ = new Character[size];
 	}
 	
+	@Override
+	public Collection<Character> getCharacters()
+	{
+		return poses_.keySet();
+	}
+	
+	// characters
+	
+	@Override
+	public Character getCharacter(Pose pose)
+	{
+		if(!isValid(pose.index_))
+			throw new IllegalArgumentException("Pose is outside map!");
+		
+		return cells_[pose.index_];
+	}
+	
+	@Override
+	public boolean setCharacter(Character character, int index)
+	{
+		if(character == null)
+		{
+			throw new IllegalArgumentException("Character cannot be null!");
+		}
+		
+		if(!isValid(index))
+			return false;
+		
+		if(!isFree(index))
+			return false;
+		
+		Pose pose = poses_.get(character);
+		
+		if(pose == null)
+		{
+			pose = new Pose(index);
+			poses_.put(character, pose);
+		}
+		else
+		{
+			cells_[pose.index_] = null;
+			pose.index_ = index;
+		}
+		
+		cells_[index] = character;
+		
+		return true;
+	}
+	
+	@Override
+	public void removeCharacter(Character character)
+	{
+		if(character == null)
+		{
+			throw new IllegalArgumentException("Character cannot be null!");
+		}
+		
+		for(int i = 0; i < cells_.length; i++)
+		{
+			if(cells_[i] == character)
+				cells_[i] = null;
+		}
+	}
+	
+	// checks
+	
+	@Override
+	public boolean isValid(int index)
+	{
+		return index >= 0 && index < cells_.length;
+	}
+	
+	@Override
+	public boolean isFree(int index)
+	{
+		return cells_[index] == null;
+	}
+	
+	// index
+	
 	public int getLeft(int index)
 	{
 		return index - 1;
@@ -25,28 +105,18 @@ public class GameMap1d implements GameMap
 		return index + 1;
 	}
 	
-	public int getNeighbor(int index, Direction1d dir)
+	@Override
+	public int getNeighborIndex(int index, Direction dir)
 	{
-		if(dir == Direction1d.LEFT)
+		if(dir == Direction.WEST)
 			return getLeft(index);
-		else
+		else if(dir == Direction.EAST)
 			return getRight(index);
+		else
+			throw new IllegalArgumentException("Unsupported Direction!");
 	}
 	
-	@Override
-	public Character getCharacter(Pose pose)
-	{
-		if(!isInside(pose.index_))
-			throw new IllegalArgumentException("Pose is outside map!");
-		
-		return cells_[pose.index_];
-	}
-	
-	@Override
-	public Collection<Character> getCharacters()
-	{
-		return poses_.keySet();
-	}
+	// distance
 	
 	public int getDistance(int a, int b)
 	{
@@ -76,87 +146,17 @@ public class GameMap1d implements GameMap
 		return getDistance(a.index_, b.index_);
 	}
 	
+	// pose
+	
 	@Override
 	public Pose getPose(Character character)
 	{
 		return poses_.get(character);
 	}
 	
-	public boolean isInside(int index)
-	{
-		return index >= 0 && index < cells_.length;
-	}
+	// rest
 	
-	public boolean isFree(int index)
-	{
-		return cells_[index] == null;
-	}
-	
-	public boolean set(Character character, int index)
-	{
-		if(character == null)
-		{
-			throw new IllegalArgumentException("Character cannot be null!");
-		}
-		
-		if(!isInside(index))
-			return false;
-		
-		if(!isFree(index))
-			return false;
-		
-		Pose pose = poses_.get(character);
-		
-		if(pose == null)
-		{
-			pose = new Pose(index);
-			poses_.put(character, pose);
-		}
-		else
-		{
-			cells_[pose.index_] = null;
-			pose.index_ = index;
-		}
-		
-		cells_[index] = character;
-		
-		return true;
-	}
-	
-	public boolean move(Character character, Direction1d dir)
-	{
-		if(character == null)
-		{
-			throw new IllegalArgumentException("Character cannot be null!");
-		}
-		
-		Pose pose = poses_.get(character);
-		
-		if(pose == null)
-		{
-			throw new IllegalArgumentException("Character has no Pose1d!");
-		}
-		
-		int new_index = getNeighbor(pose.index_, dir);
-		
-		return set(character, new_index);
-	}
-	
-	public void remove(Character character)
-	{
-		if(character == null)
-		{
-			throw new IllegalArgumentException("Character cannot be null!");
-		}
-		
-		for(int i = 0; i < cells_.length; i++)
-		{
-			if(cells_[i] == character)
-				cells_[i] = null;
-		}
-	}
-	
-	public void render()
+	public void print()
 	{
 		System.out.print("Battlefield: ");
 		
