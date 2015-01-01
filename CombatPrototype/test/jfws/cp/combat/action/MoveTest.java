@@ -32,6 +32,15 @@ public class MoveTest
 	}
 	
 	@Test
+	public void testGetNewIndex()
+	{
+		map_.setCharacter(character0_, pos_);
+		
+		assertEquals(pos_-1, move_left_.getNewIndex(character0_, map_));
+		assertEquals(pos_+1, move_right_.getNewIndex(character0_, map_));
+	}
+	
+	@Test
 	public void testIsFree()
 	{
 		assertFalse(move_left_.isFree(map_, -1));

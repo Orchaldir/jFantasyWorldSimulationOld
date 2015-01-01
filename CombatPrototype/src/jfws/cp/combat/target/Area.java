@@ -27,39 +27,39 @@ public class Area implements TargetSelection
 	}
 	
 	@Override
-	public boolean canTarget(Character user, GameMap map)
+	public boolean canTargetUser(Character user, GameMap map)
 	{
-		return center_selection_.canTarget(user, map);
+		return center_selection_.canTargetUser(user, map);
 	}
 
 	@Override
-	public boolean canTarget(Character user, Character target, GameMap map)
+	public boolean canTargetCharacter(Character user, Character target, GameMap map)
 	{
-		return center_selection_.canTarget(user, target, map);
+		return center_selection_.canTargetCharacter(user, target, map);
 	}
 	
 	@Override
-	public boolean canTarget(Character user, Pose pose, GameMap map)
+	public boolean canTargetPosition(Character user, Pose pose, GameMap map)
 	{
-		return center_selection_.canTarget(user, pose, map);
+		return center_selection_.canTargetPosition(user, pose, map);
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user, GameMap map)
+	public List<Character> targetUser(Character user, GameMap map)
 	{
-		return getTargetsAroundCenters(user, map, center_selection_.getTargets(user, map));
+		return getTargetsAroundCenters(user, map, center_selection_.targetUser(user, map));
 	}
 
 	@Override
-	public List<Character> getTargets(Character user, Character target, GameMap map)
+	public List<Character> targetCharacter(Character user, Character target, GameMap map)
 	{
-		return getTargetsAroundCenters(user, map, center_selection_.getTargets(user, target, map));
+		return getTargetsAroundCenters(user, map, center_selection_.targetCharacter(user, target, map));
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user, Pose pose, GameMap map)
+	public List<Character> targetPosition(Character user, Pose pose, GameMap map)
 	{
-		if(!center_selection_.canTarget(user, pose, map))
+		if(!center_selection_.canTargetPosition(user, pose, map))
 			return Collections.<Character>emptyList();
 		
 		return getTargetsAroundCenter(user, map, pose);

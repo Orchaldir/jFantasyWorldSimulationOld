@@ -16,33 +16,33 @@ public class SelfTest
 	private Self self_ = new Self();
 	
 	@Test
-	public void testCanTargetWithUser()
+	public void testCanTargetUser()
 	{
-		assertTrue(self_.canTarget(character0_, map_));
+		assertTrue(self_.canTargetUser(character0_, map_));
 	}
 
 	@Test
-	public void testCanTargetWithUserAsTarget()
+	public void testCanTargetCharacter()
 	{
-		assertTrue(self_.canTarget(character0_, character0_, map_));
+		assertTrue(self_.canTargetCharacter(character0_, character0_, map_));
 	}
 	
 	@Test
-	public void testCanTargetWithInvalidTarget()
+	public void testCanTargetInvalidCharacter()
 	{
-		assertFalse(self_.canTarget(character0_, character1_, map_));
+		assertFalse(self_.canTargetCharacter(character0_, character1_, map_));
 	}
 	
 	@Test
-	public void testCanTargetWithPose()
+	public void testCanTargetPosition()
 	{
-		assertFalse(self_.canTarget(character0_, pose_, map_));
+		assertFalse(self_.canTargetPosition(character0_, pose_, map_));
 	}
 	
 	@Test
-	public void testGetTargetsWithUser()
+	public void testTargetUser()
 	{
-		List<Character> targets = self_.getTargets(character0_, map_);
+		List<Character> targets = self_.targetUser(character0_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -50,9 +50,9 @@ public class SelfTest
 	}
 
 	@Test
-	public void testGetTargetsWithUserAsTarget()
+	public void testTargetCharacter()
 	{
-		List<Character> targets = self_.getTargets(character0_, character0_, map_);
+		List<Character> targets = self_.targetCharacter(character0_, character0_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -60,18 +60,18 @@ public class SelfTest
 	}
 	
 	@Test
-	public void testGetTargetsWithInvalidTarget()
+	public void testTargetInvalidCharacter()
 	{
-		List<Character> targets = self_.getTargets(character0_, character1_, map_);
+		List<Character> targets = self_.targetCharacter(character0_, character1_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());
 	}
 	
 	@Test
-	public void testGetTargetsWithPose()
+	public void testTargetPosition()
 	{
-		List<Character> targets = self_.getTargets(character0_, pose_, map_);
+		List<Character> targets = self_.targetPosition(character0_, pose_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());

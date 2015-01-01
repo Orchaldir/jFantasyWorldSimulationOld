@@ -7,11 +7,11 @@ import jfws.cp.combat.map.Pose;
 
 public interface TargetSelection
 {
-	boolean canTarget(Character user, GameMap map);
-	boolean canTarget(Character user, Character target, GameMap map);
-	boolean canTarget(Character user, Pose pose, GameMap map);
+	boolean canTargetUser(Character user, GameMap map);
+	boolean canTargetCharacter(Character user, Character target, GameMap map);
+	boolean canTargetPosition(Character user, Pose pose, GameMap map);
 	
-	List<Character> getTargets(Character user, GameMap map);
-	List<Character> getTargets(Character user, Character target, GameMap map);
-	List<Character> getTargets(Character user, Pose pose, GameMap map);
+	List<Character> targetUser(Character user, GameMap map);
+	List<Character> targetCharacter(Character user, Character target, GameMap map);
+	List<Character> targetPosition(Character user, Pose pose, GameMap map);
 }

@@ -31,33 +31,33 @@ public class AreaTest
 	}
 
 	@Test
-	public void testCanTargetWithUser()
+	public void testCanTargetUser()
 	{
-		assertTrue(strike_.canTarget(character0_, map_));
+		assertTrue(strike_.canTargetUser(character0_, map_));
 	}
 
 	@Test
-	public void testCanTargetWithUserAsTarget()
+	public void testCanTargetCharacterWithUser()
 	{
-		assertTrue(strike_.canTarget(character0_, character0_, map_));
+		assertTrue(strike_.canTargetCharacter(character0_, character0_, map_));
 	}
 	
 	@Test
-	public void testCanTargetWithInvalidTarget()
+	public void testCanTargetCharacterWithInvalidTarget()
 	{
-		assertFalse(strike_.canTarget(character0_, character1_, map_));
+		assertFalse(strike_.canTargetCharacter(character0_, character1_, map_));
 	}
 	
 	@Test
-	public void testCanTargetWithPose()
+	public void testCanTargetPosition()
 	{
-		assertFalse(strike_self_.canTarget(character0_, pose_, map_));
+		assertFalse(strike_self_.canTargetPosition(character0_, pose_, map_));
 	}
 	
 	@Test
-	public void testGetTargetsWithUser()
+	public void testTargetUser()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, map_);
+		List<Character> targets = strike_self_.targetUser(character0_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(3, targets.size());
@@ -69,9 +69,9 @@ public class AreaTest
 	}
 	
 	@Test
-	public void testGetTargetsWithUserNotAllowed()
+	public void testTargetUserNotAllowed()
 	{
-		List<Character> targets = strike_.getTargets(character0_, map_);
+		List<Character> targets = strike_.targetUser(character0_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(2, targets.size());
@@ -83,9 +83,9 @@ public class AreaTest
 	}
 	
 	@Test
-	public void testGetTargetsWithPose()
+	public void testTargetPosition()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, pose_, map_);
+		List<Character> targets = strike_self_.targetPosition(character0_, pose_, map_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());

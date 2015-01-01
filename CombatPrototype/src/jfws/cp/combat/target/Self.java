@@ -10,25 +10,25 @@ import jfws.cp.combat.map.Pose;
 public class Self implements TargetSelection
 {
 	@Override
-	public boolean canTarget(Character user, GameMap map)
+	public boolean canTargetUser(Character user, GameMap map)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean canTarget(Character user, Character target, GameMap map)
+	public boolean canTargetCharacter(Character user, Character target, GameMap map)
 	{
 		return user == target;
 	}
 	
 	@Override
-	public boolean canTarget(Character user, Pose pose, GameMap map)
+	public boolean canTargetPosition(Character user, Pose pose, GameMap map)
 	{
 		return false;
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user, GameMap map)
+	public List<Character> targetUser(Character user, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
@@ -38,7 +38,7 @@ public class Self implements TargetSelection
 	}
 
 	@Override
-	public List<Character> getTargets(Character user, Character target, GameMap map)
+	public List<Character> targetCharacter(Character user, Character target, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
@@ -49,7 +49,7 @@ public class Self implements TargetSelection
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user, Pose pose, GameMap map)
+	public List<Character> targetPosition(Character user, Pose pose, GameMap map)
 	{
 		return Collections.<Character>emptyList();
 	}

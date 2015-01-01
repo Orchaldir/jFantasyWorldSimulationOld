@@ -18,57 +18,57 @@ public class StrikeTest
 	private Strike strike_self_ = new Strike(4, true);
 	
 	@Test
-	public void testCanTargetWithUser()
+	public void testCanTargetUser()
 	{
-		assertTrue(strike_self_.canTarget(character0_, inside_));
+		assertTrue(strike_self_.canTargetUser(character0_, inside_));
 	}
 	
 	@Test
-	public void testCanTargetWithUserNotAllowed()
+	public void testCanTargetUserNotAllowed()
 	{
-		assertFalse(strike_.canTarget(character0_, inside_));
+		assertFalse(strike_.canTargetUser(character0_, inside_));
 	}
 	
 	@Test
-	public void testCanTargetWithUserAsTarget()
+	public void testCanTargetCharacterWithUser()
 	{
-		assertTrue(strike_self_.canTarget(character0_, character0_, inside_));
+		assertTrue(strike_self_.canTargetCharacter(character0_, character0_, inside_));
 	}
 	
 	@Test
-	public void testCanTargetWithUserAsTargetNotAllowed()
+	public void testCanTargetCharacterWithUserNotAllowed()
 	{
-		assertFalse(strike_.canTarget(character0_, character0_, inside_));
+		assertFalse(strike_.canTargetCharacter(character0_, character0_, inside_));
 	}
 	
 	@Test
-	public void testCanTargetWithTarget()
+	public void testCanTargetCharacter()
 	{
-		assertTrue(strike_self_.canTarget(character0_, character1_, inside_));
+		assertTrue(strike_self_.canTargetCharacter(character0_, character1_, inside_));
 	}
 	
 	@Test
-	public void testCanTargetWithTargetTooFar()
+	public void testCanTargetCharacterTooFar()
 	{
-		assertFalse(strike_self_.canTarget(character0_, character1_, outside_));
+		assertFalse(strike_self_.canTargetCharacter(character0_, character1_, outside_));
 	}
 	
 	@Test
-	public void testCanTargetWithPose()
+	public void testCanTargetPosition()
 	{
-		assertTrue(strike_self_.canTarget(character0_, pose_, inside_));
+		assertTrue(strike_self_.canTargetPosition(character0_, pose_, inside_));
 	}
 	
 	@Test
-	public void testCanTargetWithPoseTooFar()
+	public void testCanTargePositionTooFar()
 	{
-		assertFalse(strike_self_.canTarget(character0_, pose_, outside_));
+		assertFalse(strike_self_.canTargetPosition(character0_, pose_, outside_));
 	}
 	
 	@Test
-	public void testGetTargetsWithUser()
+	public void testTargetUser()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, inside_);
+		List<Character> targets = strike_self_.targetUser(character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -76,18 +76,18 @@ public class StrikeTest
 	}
 	
 	@Test
-	public void testGetTargetsWithUserNotAllowed()
+	public void testTargetUserNotAllowed()
 	{
-		List<Character> targets = strike_.getTargets(character0_, inside_);
+		List<Character> targets = strike_.targetUser(character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());
 	}
 	
 	@Test
-	public void testGetTargetsWithUserAsTarget()
+	public void testTargetCharacterWithUser()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, character0_, inside_);
+		List<Character> targets = strike_self_.targetCharacter(character0_, character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -95,18 +95,18 @@ public class StrikeTest
 	}
 	
 	@Test
-	public void testGetTargetsWithUserAsTargetNotAllowed()
+	public void testTargetCharacterWithUserNotAllowed()
 	{
-		List<Character> targets = strike_.getTargets(character0_, character0_, inside_);
+		List<Character> targets = strike_.targetCharacter(character0_, character0_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());
 	}
 	
 	@Test
-	public void testGetTargetsWithTarget()
+	public void testTargetCharacter()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, character1_, inside_);
+		List<Character> targets = strike_self_.targetCharacter(character0_, character1_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -114,18 +114,18 @@ public class StrikeTest
 	}
 	
 	@Test
-	public void testGetTargetsWithTargetTooFar()
+	public void testTargetCharacterTooFar()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, character1_, outside_);
+		List<Character> targets = strike_self_.targetCharacter(character0_, character1_, outside_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());
 	}
 	
 	@Test
-	public void testGetTargetsWithPose()
+	public void testTargetWithPosition()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, pose_, inside_);
+		List<Character> targets = strike_self_.targetPosition(character0_, pose_, inside_);
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
@@ -133,9 +133,9 @@ public class StrikeTest
 	}
 	
 	@Test
-	public void testGetTargetsWithPoseTooFar()
+	public void testTargetWithPositionTooFar()
 	{
-		List<Character> targets = strike_self_.getTargets(character0_, pose_, outside_);
+		List<Character> targets = strike_self_.targetPosition(character0_, pose_, outside_);
 		
 		assertNotNull(targets);
 		assertEquals(0, targets.size());

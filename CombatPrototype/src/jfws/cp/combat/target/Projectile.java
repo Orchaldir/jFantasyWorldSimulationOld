@@ -35,13 +35,13 @@ public class Projectile implements TargetSelection
 	}
 	
 	@Override
-	public boolean canTarget(Character user, GameMap map)
+	public boolean canTargetUser(Character user, GameMap map)
 	{
 		return can_target_user_;
 	}
 
 	@Override
-	public boolean canTarget(Character user, Character target, GameMap map)
+	public boolean canTargetCharacter(Character user, Character target, GameMap map)
 	{
 		if(user == target)
 		{
@@ -52,13 +52,13 @@ public class Projectile implements TargetSelection
 	}
 	
 	@Override
-	public boolean canTarget(Character user, Pose pose, GameMap map)
+	public boolean canTargetPosition(Character user, Pose pose, GameMap map)
 	{
 		return range_.isInside(user, pose, map);
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user, GameMap map)
+	public List<Character> targetUser(Character user, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
@@ -69,18 +69,18 @@ public class Projectile implements TargetSelection
 	}
 
 	@Override
-	public List<Character> getTargets(Character user, Character target, GameMap map)
+	public List<Character> targetCharacter(Character user, Character target, GameMap map)
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
-		if(canTarget(user, target, map))
+		if(canTargetCharacter(user, target, map))
 			targets.add(user);
 		
 		return targets;
 	}
 	
 	@Override
-	public List<Character> getTargets(Character user, Pose pose, GameMap map)
+	public List<Character> targetPosition(Character user, Pose pose, GameMap map)
 	{
 		Character possible_target = map.getCharacter(pose);
 		
@@ -89,7 +89,7 @@ public class Projectile implements TargetSelection
 		
 		List<Character> targets = new ArrayList<>(1);
 		
-		if(canTarget(user, possible_target, map))
+		if(canTargetCharacter(user, possible_target, map))
 			targets.add(user);
 		
 		return targets;
