@@ -37,6 +37,7 @@ public class MockMap implements GameMap
 	@Override
 	public boolean setCharacter(Character character, int index)
 	{
+		character_ = character;
 		return false;
 	}
 	

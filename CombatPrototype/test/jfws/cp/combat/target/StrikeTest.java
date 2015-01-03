@@ -110,7 +110,7 @@ public class StrikeTest
 		
 		assertNotNull(targets);
 		assertEquals(1, targets.size());
-		assertEquals(character0_, targets.get(0));
+		assertEquals(character1_, targets.get(0));
 	}
 	
 	@Test
@@ -123,8 +123,20 @@ public class StrikeTest
 	}
 	
 	@Test
-	public void testTargetWithPosition()
+	public void testTargetPosition()
 	{
+		inside_.setCharacter(character1_, 0);
+		List<Character> targets = strike_self_.targetPosition(character0_, pose_, inside_);
+		
+		assertNotNull(targets);
+		assertEquals(1, targets.size());
+		assertEquals(character1_, targets.get(0));
+	}
+	
+	@Test
+	public void testTargetPositionWithUser()
+	{
+		inside_.setCharacter(character0_, 0);
 		List<Character> targets = strike_self_.targetPosition(character0_, pose_, inside_);
 		
 		assertNotNull(targets);
@@ -133,7 +145,7 @@ public class StrikeTest
 	}
 	
 	@Test
-	public void testTargetWithPositionTooFar()
+	public void testTargetPositionTooFar()
 	{
 		List<Character> targets = strike_self_.targetPosition(character0_, pose_, outside_);
 		

@@ -74,7 +74,7 @@ public class Projectile implements TargetSelection
 		List<Character> targets = new ArrayList<>(1);
 		
 		if(canTargetCharacter(user, target, map))
-			targets.add(user);
+			targets.add(target);
 		
 		return targets;
 	}
@@ -90,7 +90,7 @@ public class Projectile implements TargetSelection
 		List<Character> targets = new ArrayList<>(1);
 		
 		if(canTargetCharacter(user, possible_target, map))
-			targets.add(user);
+			targets.add(possible_target);
 		
 		return targets;
 	}
