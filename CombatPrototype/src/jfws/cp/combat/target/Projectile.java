@@ -11,43 +11,26 @@ import jfws.cp.combat.map.Pose;
 public class Projectile implements TargetSelection
 {
 	private Range range_;
-	private boolean can_target_user_;
-	
-	public Projectile(Range range, boolean can_target_user)
-	{
-		range_ = range;
-		can_target_user_ = can_target_user;
-	}
 	
 	public Projectile(Range range)
 	{
-		this(range, false);
-	}
-	
-	public Projectile(int range, boolean can_target_user)
-	{
-		this(new Range(range), can_target_user);
+		range_ = range;
 	}
 	
 	public Projectile(int range)
 	{
-		this(new Range(range), false);
+		this(new Range(range));
 	}
 	
 	@Override
 	public boolean canTargetUser(Character user, GameMap map)
 	{
-		return can_target_user_;
+		return true;
 	}
 
 	@Override
 	public boolean canTargetCharacter(Character user, Character target, GameMap map)
 	{
-		if(user == target)
-		{
-			return can_target_user_;
-		}
-		
 		return range_.isInside(user, target, map);
 	}
 	
@@ -62,8 +45,7 @@ public class Projectile implements TargetSelection
 	{
 		List<Character> targets = new ArrayList<>(1);
 		
-		if(can_target_user_)
-			targets.add(user);
+		targets.add(user);
 		
 		return targets;
 	}

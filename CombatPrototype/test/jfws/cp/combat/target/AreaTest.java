@@ -18,8 +18,7 @@ public class AreaTest
 	private Character character2_ = new Character("Character2", 1);
 	private Character character3_ = new Character("Character3", 1);
 	private Self self_ = new Self();
-	private Area strike_ = new Area(self_, 4, false);
-	private Area strike_self_ = new Area(self_, 4, true);
+	private Area strike_self_ = new Area(self_, 4);
 	
 	@Before
 	public void setUpClass()
@@ -33,19 +32,19 @@ public class AreaTest
 	@Test
 	public void testCanTargetUser()
 	{
-		assertTrue(strike_.canTargetUser(character0_, map_));
+		assertTrue(strike_self_.canTargetUser(character0_, map_));
 	}
 
 	@Test
 	public void testCanTargetCharacterWithUser()
 	{
-		assertTrue(strike_.canTargetCharacter(character0_, character0_, map_));
+		assertTrue(strike_self_.canTargetCharacter(character0_, character0_, map_));
 	}
 	
 	@Test
 	public void testCanTargetCharacterWithInvalidTarget()
 	{
-		assertFalse(strike_.canTargetCharacter(character0_, character1_, map_));
+		assertFalse(strike_self_.canTargetCharacter(character0_, character1_, map_));
 	}
 	
 	@Test
@@ -63,20 +62,6 @@ public class AreaTest
 		assertEquals(3, targets.size());
 		
 		assertTrue(targets.contains(character0_));
-		assertTrue(targets.contains(character1_));
-		assertTrue(targets.contains(character2_));
-		assertFalse(targets.contains(character3_));
-	}
-	
-	@Test
-	public void testTargetUserNotAllowed()
-	{
-		List<Character> targets = strike_.targetUser(character0_, map_);
-		
-		assertNotNull(targets);
-		assertEquals(2, targets.size());
-		
-		assertFalse(targets.contains(character0_));
 		assertTrue(targets.contains(character1_));
 		assertTrue(targets.contains(character2_));
 		assertFalse(targets.contains(character3_));

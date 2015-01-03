@@ -12,18 +12,16 @@ public class Area implements TargetSelection
 {
 	private TargetSelection center_selection_;
 	private Range radius_;
-	private boolean can_target_user_;
 	
-	public Area(TargetSelection center_selection, Range radius, boolean can_target_user)
+	public Area(TargetSelection center_selection, Range radius)
 	{
 		center_selection_ = center_selection;
 		radius_ = radius;
-		can_target_user_ = can_target_user;
 	}
 	
-	public Area(TargetSelection center_selection, int range, boolean can_target_user)
+	public Area(TargetSelection center_selection, int range)
 	{
-		this(center_selection, new Range(range), can_target_user);
+		this(center_selection, new Range(range));
 	}
 	
 	@Override
@@ -92,11 +90,6 @@ public class Area implements TargetSelection
 	
 	private boolean isTarget(Character user, GameMap map, Pose center, Character possible_target)
 	{
-		if(user == possible_target && !can_target_user_)
-		{
-			return false;
-		}
-		
 		return radius_.isInside(user, center, possible_target, map);
 	}
 }

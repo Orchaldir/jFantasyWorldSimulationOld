@@ -14,7 +14,7 @@ public class CanNotEffectUserTest
 	private Character character1_ = new Character("Character1", 1);
 	private MockMap map_ = new MockMap(1, character0_);
 	private Pose pose_ = new Pose(1);
-	private Projectile projectile_ = new Projectile(4, true);
+	private Projectile projectile_ = new Projectile(4);
 	private CanNotEffectUser filter_ = new CanNotEffectUser(projectile_);
 	
 	@Test
